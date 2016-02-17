@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text_id: 1
+  image_id: 1
+  today: false
+  tomorrow: false
+  yesterday: false
+
+two:
+  text_id: 1
+  image_id: 1
+  today: false
+  tomorrow: false
+  yesterday: false

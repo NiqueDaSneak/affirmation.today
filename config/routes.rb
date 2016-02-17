@@ -1,9 +1,24 @@
 Rails.application.routes.draw do
+  get 'text/new'
+
+  get 'text/create'
+
+  get 'text/show'
+
+  get 'image/new'
+
+  get 'image/create'
+
+  get 'image/show'
+
+  get 'text_images/show'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'textimages#show'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
