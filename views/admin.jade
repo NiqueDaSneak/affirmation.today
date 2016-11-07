@@ -32,5 +32,9 @@ html
                 li= affirmation.affirmation_text
     .images.handler.hide
       form(action='/new_image', method='post')
+        select(name='device')
+          option(value='desktop') Desktop
+          option(value='phone') Phone
+          option(value='tablet') Tablet
         input(type='text', name='image_link', value='', placeholder='Paste Image Link Here...')
         input(type='submit', name='name', value='Submit')
