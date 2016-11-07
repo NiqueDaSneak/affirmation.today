@@ -31,22 +31,10 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
-    var image;
-    if (req.device.type === "phone") {
-        // image = servePhoneImage();
-        console.log("its a phone");
-    } else if (req.device.type === "tablet") {
-        console.log("its a tablet");
-        // image = serveTabletImage();
-    } else {
-        console.log("its not a tablet or phone");
-        // image = serveDesktopImage();
-    }
-    // console.log(req.device.type);
     res.render('homepage', ({
         date: moment().format("ddd, MMM Do YY"),
         quote: serveAffirmation(),
-        image_path: image
+        image_path: getBackgroundImage(req.device.type)
     }));
 });
 
@@ -68,7 +56,7 @@ app.post('/new_affirmation', function(req, res) {
 
 app.post('/new_image', function(req, res) {
     var new_image = {
-        used: false,
+        type: req.body.device,
         link: req.body.image_link
     }
     db.images.save(new_image)
@@ -82,15 +70,12 @@ function serveAffirmation() {
     })
     return unused[Math.floor(Math.random() * unused.length)].affirmation_text
 }
-
-function getBackgroundImage() {
-    var unused = db.images.find({
-        used: false
+function getBackgroundImage(device_type) {
+    var image_pool = db.images.find({
+        type: device_type
     })
-    return unused[Math.floor(Math.random() * unused.length)].link
+    return image_pool[Math.floor(Math.random() * image_pool.length)].link
 }
-
-
 
 // SERVER LISTENING
 var port = process.env.PORT || 3000;
