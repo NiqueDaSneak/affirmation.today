@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="admin.css">
+    <script type="text/javascript" src="admin.js"></script>
+
+    <title>Affirmation.today Admin</title>
+</head>
+
+<body>
+    <nav>
+        <a class="button show-affirmations" href="#">Add or Delete an Affirmation</a>
+        <a class="button show-images" href="#">Add or Delete an Image</a>
+    </nav>
+
+    <div class="affirmations handler hide">
+        <form class="" action="/new_affirmation" method="post">
+            <input type="text" name="affirmation_text" value="" placeholder="Insert Knowledge...">
+            <input type="submit" name="name" value="Submit">
+        </form>
+        <div class="all-affirmations">
+
+            <a class="show-past-affirmations" href="#">Show Past Affirmations</a>
+            <a class="show-future-affirmations" href="#">Show Future Affirmations</a>
+
+            <div class="hide future-affirmations">
+                <p>These affirmations have not been used:</p>
+                <ul>
+
+                </ul>
+            </div>
+            <div class="hide past-affirmations">
+                <p>These are old affirmations:</p>
+                <ul>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="images handler hide">
+        <form class="" action="index.html" method="post">
+            <input type="text" name="name" value="" placeholder="Paste Image Link Here...">
+            <input type="submit" name="name" value="Submit">
+
+        </form>
+    </div>
+</body>
+
+</html>

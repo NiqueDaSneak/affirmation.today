@@ -1,0 +1,20 @@
+{
+  "name": "affirmation.today",
+  "version": "1.0.0",
+  "description": "An app that updates with new affirmations on a daily basis.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiqueDaSneak/affirmation.today.git"
+  },
+  "author": "niquedasneak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NiqueDaSneak/affirmation.today/issues"
+  },
+  "homepage": "https://github.com/NiqueDaSneak/affirmation.today#readme"
+}
