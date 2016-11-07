@@ -8,6 +8,8 @@ var db = require('diskdb');
 db.connect('db', ['affirmations', 'images']);
 var bodyParser = require('body-parser');
 var moment = require('moment');
+var device = require('express-device');
+
 
 
 // APP DEFINITIONS
@@ -21,6 +23,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use(device.capture());
 
 // VIEWS
 app.set('views', __dirname + '/views');
@@ -28,7 +31,18 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
-var image = getBackgroundImage()
+    var image;
+    if (req.device.type === "phone") {
+        // image = servePhoneImage();
+        console.log("its a phone");
+    } else if (req.device.type === "tablet") {
+        console.log("its a tablet");
+        // image = serveTabletImage();
+    } else {
+        console.log("its not a tablet or phone");
+        // image = serveDesktopImage();
+    }
+    // console.log(req.device.type);
     res.render('homepage', ({
         date: moment().format("ddd, MMM Do YY"),
         quote: serveAffirmation(),
@@ -70,11 +84,13 @@ function serveAffirmation() {
 }
 
 function getBackgroundImage() {
-  var unused = db.images.find({
-      used: false
-  })
-  return unused[Math.floor(Math.random() * unused.length)].link
+    var unused = db.images.find({
+        used: false
+    })
+    return unused[Math.floor(Math.random() * unused.length)].link
 }
+
+
 
 // SERVER LISTENING
 var port = process.env.PORT || 3000;
