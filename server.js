@@ -50,7 +50,7 @@ app.post('/new_affirmation', function(req, res) {
         used: false,
         affirmation_text: req.body.affirmation_text
     }
-    db.affirmations.save(new_affirmation)
+    db.affirmations.save(new_affirmation);
     res.redirect('admin');
 });
 
@@ -59,7 +59,7 @@ app.post('/new_image', function(req, res) {
         type: req.body.device,
         link: req.body.image_link
     }
-    db.images.save(new_image)
+    db.images.save(new_image);
     res.redirect('admin');
 });
 
