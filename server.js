@@ -31,6 +31,7 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
+  
     res.render('homepage', ({
         date: moment().format("ddd, MMM Do YY"),
         quote: serveAffirmation(),

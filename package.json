@@ -16,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/NiqueDaSneak/affirmation.today/issues"
   },
-  "homepage": "https://github.com/NiqueDaSneak/affirmation.today#readme"
+  "homepage": "https://github.com/NiqueDaSneak/affirmation.today#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "diskdb": "^0.1.17",
+    "express": "^4.14.0",
+    "express-device": "^0.4.2",
+    "image-downloader": "^2.0.0",
+    "moment": "^2.15.2",
+    "morgan": "^1.7.0",
+    "request": "^2.78.0"
+  }
 }
