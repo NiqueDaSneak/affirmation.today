@@ -9,7 +9,9 @@ db.connect('db', ['affirmations', 'images']);
 var bodyParser = require('body-parser');
 var moment = require('moment');
 var device = require('express-device');
-
+var image_downloader = require('image-downloader');
+var dominantColor = require('dominant-color'),
+    imgPath = 'temp/temp-file.jpg';
 
 
 // APP DEFINITIONS
@@ -31,11 +33,31 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
+  var image = getBackgroundImage(req.device.type);
+
+  var options = {
+    url: image,
+    dest: 'temp/temp-file.jpg',
+    done: function(err, filename, image) {
+      if (err) {
+        throw err;
+      }
+      console.log("File saved to", filename);
+    }
+  };
+  image_downloader(options);
   
+  dominantColor(imgPath, function(err, color){
+    if (err) {
+      throw err;
+    }
+    console.log(color);
+  });
+
     res.render('homepage', ({
         date: moment().format("ddd, MMM Do YY"),
         quote: serveAffirmation(),
-        image_path: getBackgroundImage(req.device.type)
+        image_path: image
     }));
 });
 

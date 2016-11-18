@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "diskdb": "^0.1.17",
+    "dominant-color": "0.0.1",
     "express": "^4.14.0",
     "express-device": "^0.4.2",
     "image-downloader": "^2.0.0",
