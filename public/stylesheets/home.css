@@ -1,0 +1,13 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0 auto; }
+
+.date {
+  text-align: center;
+  margin-top: 16vh;
+  font-size: 10vw; }
+
+.quote {
+  text-align: center;
+  margin-top: 28vh;
+  font-size: 5vw; }
