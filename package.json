@@ -19,13 +19,22 @@
   "homepage": "https://github.com/NiqueDaSneak/affirmation.today#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "cloudinary": "^1.8.0",
     "diskdb": "^0.1.17",
     "dominant-color": "0.0.1",
     "express": "^4.14.0",
     "express-device": "^0.4.2",
     "image-downloader": "^2.0.0",
+    "jade": "^1.11.0",
     "moment": "^2.15.2",
     "morgan": "^1.7.0",
     "request": "^2.78.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-util": "^3.0.8"
   }
 }
