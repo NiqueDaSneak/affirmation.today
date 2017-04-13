@@ -2,24 +2,17 @@
 
 // NPM PACKAGES
 var express = require('express');
-var request = require('request');
-var logger = require('morgan');
 var db = require('diskdb');
 db.connect('db', ['affirmations', 'images']);
 var bodyParser = require('body-parser');
 var moment = require('moment');
 var device = require('express-device');
-var image_downloader = require('image-downloader');
-var dominantColor = require('dominant-color'),
-    imgPath = 'temp/temp-file.jpg';
-
+var cloudinary = require('cloudinary');
 
 // APP DEFINITIONS
 var app = express();
-app.locals.testing = "It worked!";
 
 // MIDDLEWARE
-app.use(logger('short'));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
@@ -33,31 +26,12 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
-  var image = getBackgroundImage(req.device.type);
 
-  var options = {
-    url: image,
-    dest: 'temp/temp-file.jpg',
-    done: function(err, filename, image) {
-      if (err) {
-        throw err;
-      }
-      console.log("File saved to", filename);
-    }
-  };
-  image_downloader(options);
-  
-  dominantColor(imgPath, function(err, color){
-    if (err) {
-      throw err;
-    }
-    console.log(color);
-  });
+
 
     res.render('homepage', ({
         date: moment().format("ddd, MMM Do YY"),
-        quote: serveAffirmation(),
-        image_path: image
+        quote: serveAffirmation()
     }));
 });
 
@@ -77,14 +51,6 @@ app.post('/new_affirmation', function(req, res) {
     res.redirect('admin');
 });
 
-app.post('/new_image', function(req, res) {
-    var new_image = {
-        type: req.body.device,
-        link: req.body.image_link
-    }
-    db.images.save(new_image);
-    res.redirect('admin');
-});
 
 // HELPER FUNCTIONS
 function serveAffirmation() {
@@ -92,12 +58,6 @@ function serveAffirmation() {
         used: false
     })
     return unused[Math.floor(Math.random() * unused.length)].affirmation_text
-}
-function getBackgroundImage(device_type) {
-    var image_pool = db.images.find({
-        type: device_type
-    })
-    return image_pool[Math.floor(Math.random() * image_pool.length)].link
 }
 
 // SERVER LISTENING
