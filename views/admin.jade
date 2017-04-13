@@ -4,37 +4,24 @@ html
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width,initial-scale=1')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-    link(rel='stylesheet', type='text/css', href='admin.css')
-    script(type='text/javascript', src='admin.js')
+    link(rel='stylesheet', type='text/css', href='stylesheets/admin.css')
+    script(type='text/javascript', src='js/admin.js')
     title Affirmation.today Admin
   body
     nav
       a.button.show-affirmations(href='#') Add or Delete an Affirmation
-      a.button.show-images(href='#') Add or Delete an Image
     .affirmations.handler.hide
       form(action='/new_affirmation', method='post')
         input(type='text', name='affirmation_text', value='', placeholder='Insert Knowledge...')
+        |  
         input(type='submit', name='name', value='Submit')
       .all-affirmations
-        a.button.show-past-affirmations(href='#') Show Past Affirmations
-        a.button.show-future-affirmations(href='#') Show Future Affirmations
+        a.show-past-affirmations(href='#') Show Past Affirmations
+        |  
+        a.show-future-affirmations(href='#') Show Future Affirmations
         .hide.future-affirmations
           p These affirmations have not been used:
           ul
-          each affirmation in affirmations
-              if affirmation.used == false
-                li= affirmation.affirmation_text
         .hide.past-affirmations
           p These are old affirmations:
           ul
-          each affirmation in affirmations
-              if affirmation.used == true
-                li= affirmation.affirmation_text
-    .images.handler.hide
-      form(action='/new_image', method='post')
-        select(name='device')
-          option(value='desktop') Desktop
-          option(value='phone') Phone
-          option(value='tablet') Tablet
-        input(type='text', name='image_link', value='', placeholder='Paste Image Link Here...')
-        input(type='submit', name='name', value='Submit')
