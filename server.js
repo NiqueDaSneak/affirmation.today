@@ -6,8 +6,6 @@ var db = require('diskdb');
 db.connect('db', ['affirmations', 'images']);
 var bodyParser = require('body-parser');
 var moment = require('moment');
-var device = require('express-device');
-var cloudinary = require('cloudinary');
 
 // APP DEFINITIONS
 var app = express();
@@ -18,7 +16,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.use(device.capture());
 
 // VIEWS
 app.set('views', __dirname + '/views');
@@ -26,8 +23,6 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
-
-
 
     res.render('homepage', ({
         date: moment().format("ddd, MMM Do YY"),
