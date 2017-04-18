@@ -1,17 +1,10 @@
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0 auto;
-  background-image: url("/img/mobile/image8.jpg");
   text-align: center; }
-  @media only screen and (max-width: 1024px) and (min-width: 414px) {
-    body {
-      background-image: url("/img/tablet/image9.jpg"); } }
-  @media only screen and (min-width: 1025px) {
-    body {
-      background-image: url("/img/desktop/image2.jpg"); } }
 
 .content {
-  background-color: #474747;
+  background-color: rgba(71, 71, 71, 0.8);
   margin: auto;
   position: absolute;
   top: 0;
@@ -19,7 +12,8 @@ body {
   bottom: 0;
   right: 0;
   height: 26vh;
-  color: white; }
+  color: white;
+  box-shadow: inset 0px 0px 22px 0px rgba(0, 0, 0, 0.75); }
   @media only screen and (max-width: 1024px) and (min-width: 414px) {
     .content {
       height: 34vh; } }
@@ -32,9 +26,15 @@ body {
   @media only screen and (min-width: 1025px) {
     .date {
       font-size: 2.2vw; } }
+  @media only screen and (max-width: 1024px) and (min-width: 414px) {
+    .date {
+      font-size: 3vw; } }
 
 .quote {
   font-size: 6vw; }
   @media only screen and (min-width: 1025px) {
     .quote {
       font-size: 3vw; } }
+  @media only screen and (max-width: 1024px) and (min-width: 414px) {
+    .quote {
+      font-size: 5vw; } }
