@@ -28,7 +28,7 @@
     "jade": "^1.11.0",
     "moment": "^2.15.2",
     "morgan": "^1.7.0",
-    "request": "^2.78.0"
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",

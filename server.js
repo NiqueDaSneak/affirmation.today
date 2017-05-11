@@ -6,6 +6,7 @@ var db = require('diskdb');
 db.connect('db', ['affirmations', 'images']);
 var bodyParser = require('body-parser');
 var moment = require('moment');
+var request = require('request')
 
 // APP DEFINITIONS
 var app = express();
