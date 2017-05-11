@@ -30,6 +30,18 @@ app.get('/', function(req, res) {
     }));
 });
 
+// FACEBOOK MESSENGER BOT
+app.get('/webhook', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' &&
+      req.query['hub.verify_token'] === 'jai_jai_ganesha') {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);
+  }
+});
+
 // ADMIN APP
 app.get('/admin', function(req, res) {
     res.render('admin', ({
