@@ -7,6 +7,7 @@ db.connect('db', ['affirmations', 'images']);
 var bodyParser = require('body-parser');
 var moment = require('moment');
 var request = require('request')
+var PAGE_ACCESS_TOKEN = 'EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD'
 
 // APP DEFINITIONS
 var app = express();
@@ -42,7 +43,6 @@ app.post('/new_affirmation', function(req, res) {
 
 // FACEBOOK MESSENGER BOT
 app.get('/webhook', function(req, res) {
-    var accessToken = 'EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD'
     if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === 'jai_jai_ganesha') {
         console.log("Validating webhook");
         res.status(200).send(req.query['hub.challenge'])
