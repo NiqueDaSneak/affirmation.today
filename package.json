@@ -19,15 +19,10 @@
   "homepage": "https://github.com/NiqueDaSneak/affirmation.today#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "cloudinary": "^1.8.0",
-    "diskdb": "^0.1.17",
-    "dominant-color": "0.0.1",
     "express": "^4.14.0",
-    "express-device": "^0.4.2",
-    "image-downloader": "^2.0.0",
     "jade": "^1.11.0",
     "moment": "^2.15.2",
-    "morgan": "^1.7.0",
+    "mongoose": "^4.9.8",
     "request": "^2.81.0"
   },
   "devDependencies": {
