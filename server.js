@@ -1,13 +1,18 @@
 "use strict"
 
 // NPM PACKAGES
-var express = require('express');
-var db = require('diskdb');
-db.connect('db', ['affirmations', 'images']);
-var bodyParser = require('body-parser');
-var moment = require('moment');
+var express = require('express')
+var bodyParser = require('body-parser')
+var moment = require('moment')
 var request = require('request')
 var PAGE_ACCESS_TOKEN = 'EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD'
+
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://dom:Losangeleslakers47@ds133961.mlab.com:33961/affirmation-today')
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
+var affirmationSchema = mongoose.Schema({text: String})
+var Affirmation = mongoose.model('Affirmation', affirmationSchema)
 
 // APP DEFINITIONS
 var app = express();
@@ -23,21 +28,28 @@ app.set('view engine', 'jade');
 
 // LANDING PAGE & MAIN APP
 app.get('/', function(req, res) {
-
-    res.render('homepage', ({date: moment().format("ddd, MMM Do YY"), quote: serveAffirmation()}));
+    Affirmation.find((err, affirmation) => {
+        var aff
+        if (err) return console.error(err)
+        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        res.render('homepage', ({date: moment().format("ddd, MMM Do YY"), quote: aff}));
+    })
 })
 
 // ADMIN APP
 app.get('/admin', function(req, res) {
-    res.render('admin', ({affirmations: db.affirmations.find()}));
+  Affirmation.find((err, affirmation) => {
+      if (err) return console.error(err)
+      res.render('admin', ({affirmations: affirmation}));
+  })
 })
 
 app.post('/new_affirmation', function(req, res) {
-    var new_affirmation = {
-        used: false,
-        affirmation_text: req.body.affirmation_text
-    }
-    db.affirmations.save(new_affirmation)
+    var new_affirmation = new Affirmation({
+        text: req.body.affirmation_text
+    }).save((err, affirmation) => {
+       if (err) return console.error(err)
+    })
     res.redirect('admin')
 })
 
@@ -80,80 +92,77 @@ app.post('/webhook', function(req, res) {
 });
 
 function receivedMessage(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var timeOfMessage = event.timestamp;
-  var message = event.message;
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
+    var timeOfMessage = event.timestamp;
+    var message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
+    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
+    console.log(JSON.stringify(message));
 
-  var messageId = message.mid;
+    var messageId = message.mid;
 
-  var messageText = message.text;
-  var messageAttachments = message.attachments;
+    var messageText = message.text;
+    var messageAttachments = message.attachments;
 
-  if (messageText) {
+    if (messageText) {
 
-    // If we receive a text message, check to see if it matches a keyword
-    // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
+        // If we receive a text message, check to see if it matches a keyword
+        // and send back the example. Otherwise, just echo the text we received.
+        switch (messageText) {
+            case 'generic':
+                sendGenericMessage(senderID);
+                break;
 
-      default:
-        sendTextMessage(senderID, messageText);
+            default:
+                sendTextMessage(senderID, messageText);
+        }
+    } else if (messageAttachments) {
+        sendTextMessage(senderID, "Message with attachment received");
     }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
-  }}
+}
 
-  function sendGenericMessage(recipientId, messageText) {
-  // To be expanded in later sections
+function sendGenericMessage(recipientId, messageText) {
+    // To be expanded in later sections
 }
 
 function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
-  };
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText
+        }
+    };
 
-  callSendAPI(messageData);
+    callSendAPI(messageData);
 }
 
 function callSendAPI(messageData) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: PAGE_ACCESS_TOKEN },
-    method: 'POST',
-    json: messageData
+    request({
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {
+            access_token: PAGE_ACCESS_TOKEN
+        },
+        method: 'POST',
+        json: messageData
 
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s",
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
-    }
-  });
+            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+        } else {
+            console.error("Unable to send message.");
+            console.error(response);
+            console.error(error);
+        }
+    });
 }
 
 // HELPER FUNCTIONS
-function serveAffirmation() {
-    var unused = db.affirmations.find({used: false})
-    return unused[Math.floor(Math.random() * unused.length)].affirmation_text
-}
 
 // SERVER LISTENING
 var port = process.env.PORT || 3000;
