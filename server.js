@@ -74,10 +74,11 @@ app.post('/webhook', function(req, res) {
             var timeOfEvent = entry.time
             // Iterate over each messaging event
             entry.messaging.forEach(function(event) {
-              console.log(event)
                 if (event.message) {
                     receivedMessage(event)
-                } else {
+                } else if (event.postback) {
+                    receivedPostback(event)
+                }else {
                     console.log("Webhook received unknown event: ", event)
                 }
             });
@@ -90,7 +91,19 @@ app.post('/webhook', function(req, res) {
         // will time out and we will keep trying to resend.
         res.sendStatus(200)
     }
-});
+})
+
+function receivedPostback(event) {
+  var postback = event.postback.payload
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+    console.log('Recieved postback')
+
+    if (postback === 'GET_STARTED_PAYLOAD') {
+      sendTextMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+
+    }
+}
 
 function receivedMessage(event) {
     var senderID = event.sender.id;
@@ -112,11 +125,11 @@ function receivedMessage(event) {
         // and send back the example. Otherwise, just echo the text we received.
         switch (messageText) {
             case 'generic':
-                sendGenericMessage(senderID);
+                sendGenericMessage(senderID)
                 break;
 
             default:
-                sendTextMessage(senderID, messageText);
+                sendTextMessage(senderID, messageText)
         }
     } else if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
