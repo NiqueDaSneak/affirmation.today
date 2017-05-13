@@ -30,7 +30,8 @@ app.set('view engine', 'jade');
 app.get('/', function(req, res) {
     Affirmation.find((err, affirmation) => {
         var aff
-        if (err) return console.error(err)
+        if (err)
+            return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
         res.render('homepage', ({date: moment().format("ddd, MMM Do YY"), quote: aff}));
     })
@@ -38,17 +39,17 @@ app.get('/', function(req, res) {
 
 // ADMIN APP
 app.get('/admin', function(req, res) {
-  Affirmation.find((err, affirmation) => {
-      if (err) return console.error(err)
-      res.render('admin', ({affirmations: affirmation}));
-  })
+    Affirmation.find((err, affirmation) => {
+        if (err)
+            return console.error(err)
+        res.render('admin', ({affirmations: affirmation}));
+    })
 })
 
 app.post('/new_affirmation', function(req, res) {
-    var new_affirmation = new Affirmation({
-        text: req.body.affirmation_text
-    }).save((err, affirmation) => {
-       if (err) return console.error(err)
+    var new_affirmation = new Affirmation({text: req.body.affirmation_text}).save((err, affirmation) => {
+        if (err)
+            return console.error(err)
     })
     res.redirect('admin')
 })
@@ -78,7 +79,7 @@ app.post('/webhook', function(req, res) {
                     receivedMessage(event)
                 } else if (event.postback) {
                     receivedPostback(event)
-                }else {
+                } else {
                     console.log("Webhook received unknown event: ", event)
                 }
             });
@@ -94,13 +95,13 @@ app.post('/webhook', function(req, res) {
 })
 
 function receivedPostback(event) {
-  var postback = event.postback.payload
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
+    var postback = event.postback.payload
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
     console.log('Recieved postback')
 
     if (postback === 'GET_STARTED_PAYLOAD') {
-      sendTextMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+        sendGenericTemplateButtons(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages', ['Yes I do', 'Not Interested'])
 
     }
 }
@@ -125,8 +126,7 @@ function receivedMessage(event) {
         // and send back the example. Otherwise, just echo the text we received.
         switch (messageText) {
             case 'generic':
-                sendGenericMessage(senderID)
-                break;
+                sendGenericMessage(senderID)break;
 
             default:
                 sendTextMessage(senderID, messageText)
@@ -140,50 +140,75 @@ function sendGenericMessage(recipientId, messageText) {
     // To be expanded in later sections
 }
 
-function sendTextMessage(recipientId, messageText) {
+function sendGenericTemplateButtons(recipientId, messageText, buttons) {
     var messageData = {
         recipient: {
             id: recipientId
         },
         message: {
-            text: messageText
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": messageText,
+                    "buttons": [
+                      for (var i = 0; i < buttons.length; i++) {
+                        {
+                            "type": "postback",
+                            "title": buttons[i],
+                            "payload": buttons[i]
+                        },
+                      }
+                    ]
+                }
+            }
+            callSendAPI(messageData);
         }
-    };
 
-    callSendAPI(messageData);
-}
+        function sendTextMessage(recipientId, messageText) {
+            var messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    text: messageText
+                }
+            };
 
-function callSendAPI(messageData) {
-    request({
-        uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {
-            access_token: PAGE_ACCESS_TOKEN
-        },
-        method: 'POST',
-        json: messageData
-
-    }, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var recipientId = body.recipient_id;
-            var messageId = body.message_id;
-
-            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
-        } else {
-            console.error("Unable to send message.");
-            console.error(response);
-            console.error(error);
+            callSendAPI(messageData);
         }
-    });
-}
 
-// HELPER FUNCTIONS
+        function callSendAPI(messageData) {
+            request({
+                uri: 'https://graph.facebook.com/v2.6/me/messages',
+                qs: {
+                    access_token: PAGE_ACCESS_TOKEN
+                },
+                method: 'POST',
+                json: messageData
 
-// SERVER LISTENING
-var port = process.env.PORT || 3000;
-app.listen(port, function() {
-    console.log('Server running on port ' + port);
-});
-app.on('error', function() {
-    console.log(error);
-});
-module.exports = app;
+            }, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var recipientId = body.recipient_id;
+                    var messageId = body.message_id;
+
+                    console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+                } else {
+                    console.error("Unable to send message.");
+                    console.error(response);
+                    console.error(error);
+                }
+            });
+        }
+
+        // HELPER FUNCTIONS
+
+        // SERVER LISTENING
+        var port = process.env.PORT || 3000;
+        app.listen(port, function() {
+            console.log('Server running on port ' + port);
+        });
+        app.on('error', function() {
+            console.log(error);
+        });
+        module.exports = app;
