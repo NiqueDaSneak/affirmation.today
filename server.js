@@ -101,7 +101,7 @@ function receivedPostback(event) {
     console.log('Recieved postback')
 
     if (postback === 'GET_STARTED_PAYLOAD') {
-        sendGenericTemplateButtons(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages', ['Yes I do', 'Not Interested'])
+        sendGenericTemplateButtons(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
 
     }
 }
@@ -141,7 +141,7 @@ function sendGenericMessage(recipientId, messageText) {
     // To be expanded in later sections
 }
 
-function sendGenericTemplateButtons(recipientId, messageText, buttons) {
+function sendGenericTemplateButtons(recipientId, messageText) {
     var messageData = {
         recipient: {
             id: recipientId
@@ -153,13 +153,16 @@ function sendGenericTemplateButtons(recipientId, messageText, buttons) {
                     "template_type": "button",
                     "text": messageText,
                     "buttons": [
-                      for (var i = 0; i < buttons.length; i++) {
                         {
                             "type": "postback",
-                            "title": buttons[i],
-                            "payload": buttons[i]
+                            "title": "Yes I would",
+                            "payload": "YES_SCHEDULE_MSG"
                         },
-                      }
+                        {
+                            "type": "postback",
+                            "title": "Not Interested",
+                            "payload": "NO_SCHEDULE_MSG"
+                        }
                     ]
                 }
             }
