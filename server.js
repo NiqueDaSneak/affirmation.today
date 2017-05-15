@@ -100,7 +100,7 @@ app.post('/webhook', function(req, res) {
     }
 })
 
-function eventHandler() {
+function eventHandler(event) {
   if (event.postback) {
     var postback = event.postback.payload
     var senderID = event.sender.id
