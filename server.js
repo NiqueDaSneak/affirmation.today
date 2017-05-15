@@ -82,10 +82,9 @@ app.post('/webhook', function(req, res) {
             var timeOfEvent = entry.time
             // Iterate over each messaging event
             entry.messaging.forEach(function(event) {
-                if (event.message) {
-                    receivedMessage(event)
-                } else if (event.postback) {
-                    receivedPostback(event)
+                if (event.message || event.postback) {
+                    eventHandler(event)
+                    // receivedMessage(event)
                 } else {
                     console.log("Webhook received unknown event: ", event)
                 }
@@ -101,23 +100,29 @@ app.post('/webhook', function(req, res) {
     }
 })
 
-function receivedPostback(event) {
+function eventHandler() {
+  if (event.postback) {
     var postback = event.postback.payload
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    console.log('Recieved postback')
-    console.log(event)
-    if (postback === 'GET_STARTED_PAYLOAD') {
+    var senderID = event.sender.id
+    switch (postback) {
+      case 'GET_STARTED_PAYLOAD':
         sendWelcomeMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
-
+        break
+      default:
+        console.log(postback)
     }
+  }
+
+  if (event.message) {
+
+  }
 }
 
 function receivedMessage(event) {
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfMessage = event.timestamp;
-    var message = event.message;
+    var senderID = event.sender.id
+    var recipientID = event.recipient.id
+    var timeOfMessage = event.timestamp
+    var message = event.message
 
     console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
     console.log(JSON.stringify(message));
