@@ -16,7 +16,7 @@ var affirmationSchema = mongoose.Schema({text: String})
 var Affirmation = mongoose.model('Affirmation', affirmationSchema)
 
 var userSchema = mongoose.Schema({fullName: String, photo: String, timezone: Number})
-personSchema.virtual('firstName').get(() => {
+userSchema.virtual('firstName').get(() => {
   return this.fullName.split(' ')[0]
 })
 var User = mongoose.model('User', userSchema)
