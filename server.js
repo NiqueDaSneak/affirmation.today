@@ -7,12 +7,19 @@ var moment = require('moment')
 var request = require('request')
 var PAGE_ACCESS_TOKEN = 'EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD'
 
+// DATABASE SETUP
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://dom:Losangeleslakers47@ds133961.mlab.com:33961/affirmation-today')
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 var affirmationSchema = mongoose.Schema({text: String})
 var Affirmation = mongoose.model('Affirmation', affirmationSchema)
+
+var userSchema = mongoose.Schema({fullName: String, photo: String, timezone: Number})
+personSchema.virtual('firstName').get(() => {
+  return this.fullName.split(' ')[0]
+})
+var User = mongoose.model('User', userSchema)
 
 // APP DEFINITIONS
 var app = express();
