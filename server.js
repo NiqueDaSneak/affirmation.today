@@ -99,9 +99,9 @@ function receivedPostback(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
     console.log('Recieved postback')
-
+    console.log(event)
     if (postback === 'GET_STARTED_PAYLOAD') {
-        sendGenericTemplateButtons(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+        sendWelcomeMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
 
     }
 }
@@ -141,7 +141,7 @@ function sendGenericMessage(recipientId, messageText) {
     // To be expanded in later sections
 }
 
-function sendGenericTemplateButtons(recipientId, messageText) {
+function sendWelcomeMessage(recipientId, messageText) {
     var messageData = {
         recipient: {
             id: recipientId
