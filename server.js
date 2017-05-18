@@ -113,128 +113,126 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     console.log('Upload successful!  Server responded with:', body);
-                })
-                sendWelcomeMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+                }) sendWelcomeMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')break
+            case 'YES_SCHEDULE_MSG'
                 break
-                case 'YES_SCHEDULE_MSG'
+            case 'NO_SCHEDULE_MSG'
                 break
-                case 'NO_SCHEDULE_MSG'
-                break
-                default : console.log(postback)
-            }
-        }
-
-        if (event.message) {}
-    }
-
-    function receivedMessage(event) {
-        var senderID = event.sender.id
-        var recipientID = event.recipient.id
-        var timeOfMessage = event.timestamp
-        var message = event.message
-
-        console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
-        console.log(JSON.stringify(message));
-
-        var messageId = message.mid;
-
-        var messageText = message.text;
-        var messageAttachments = message.attachments;
-
-        if (messageText) {
-
-            // If we receive a text message, check to see if it matches a keyword
-            // and send back the example. Otherwise, just echo the text we received.
-            switch (messageText) {
-                case 'generic':
-                    sendGenericMessage(senderID)
-                    break
-
-                default:
-                    sendTextMessage(senderID, messageText)
-            }
-        } else if (messageAttachments) {
-            sendTextMessage(senderID, "Message with attachment received");
+            default:
+                console.log(postback)
         }
     }
 
-    function sendGenericMessage(recipientId, messageText) {
-        // To be expanded in later sections
-    }
+    if (event.message) {}
+}
 
-    function sendWelcomeMessage(recipientId, messageText) {
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "button",
-                        "text": messageText,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "Yes I would",
-                                "payload": "YES_SCHEDULE_MSG"
-                            }, {
-                                "type": "postback",
-                                "title": "Not Interested",
-                                "payload": "NO_SCHEDULE_MSG"
-                            }
-                        ]
-                    }
+function receivedMessage(event) {
+    var senderID = event.sender.id
+    var recipientID = event.recipient.id
+    var timeOfMessage = event.timestamp
+    var message = event.message
+
+    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
+    console.log(JSON.stringify(message));
+
+    var messageId = message.mid;
+
+    var messageText = message.text;
+    var messageAttachments = message.attachments;
+
+    if (messageText) {
+
+        // If we receive a text message, check to see if it matches a keyword
+        // and send back the example. Otherwise, just echo the text we received.
+        switch (messageText) {
+            case 'generic':
+                sendGenericMessage(senderID)
+                break
+            default:
+                sendTextMessage(senderID, messageText)
+        }
+    } else if (messageAttachments) {
+        sendTextMessage(senderID, "Message with attachment received");
+    }
+}
+
+function sendGenericMessage(recipientId, messageText) {
+    // To be expanded in later sections
+}
+
+function sendWelcomeMessage(recipientId, messageText) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": messageText,
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "Yes I would",
+                            "payload": "YES_SCHEDULE_MSG"
+                        }, {
+                            "type": "postback",
+                            "title": "Not Interested",
+                            "payload": "NO_SCHEDULE_MSG"
+                        }
+                    ]
                 }
             }
         }
-        callSendAPI(messageData);
     }
+    callSendAPI(messageData);
+}
 
-    function sendTextMessage(recipientId, messageText) {
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                text: messageText
-            }
-        };
+function sendTextMessage(recipientId, messageText) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText
+        }
+    };
 
-        callSendAPI(messageData);
-    }
+    callSendAPI(messageData);
+}
 
-    function callSendAPI(messageData) {
-        request({
-            uri: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: {
-                access_token: PAGE_ACCESS_TOKEN
-            },
-            method: 'POST',
-            json: messageData
+function callSendAPI(messageData) {
+    request({
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {
+            access_token: PAGE_ACCESS_TOKEN
+        },
+        method: 'POST',
+        json: messageData
 
-        }, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var recipientId = body.recipient_id;
-                var messageId = body.message_id;
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
 
-                console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
-            } else {
-                console.error("Unable to send message.");
-                console.error(response);
-                console.error(error);
-            }
-        });
-    }
-
-    // HELPER FUNCTIONS
-
-    // SERVER LISTENING
-    var port = process.env.PORT || 3000;
-    app.listen(port, function() {
-        console.log('Server running on port ' + port);
+            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+        } else {
+            console.error("Unable to send message.");
+            console.error(response);
+            console.error(error);
+        }
     });
-    app.on('error', function() {
-        console.log(error);
-    });
-    module.exports = app;
+}
+
+// HELPER FUNCTIONS
+
+// SERVER LISTENING
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+    console.log('Server running on port ' + port);
+});
+app.on('error', function() {
+    console.log(error);
+});
+module.exports = app;
