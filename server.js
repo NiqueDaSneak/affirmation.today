@@ -114,7 +114,7 @@ function eventHandler(event) {
                     }
                     console.log('Upload successful!  Server responded with:', body)
                     var user = JSON.stringify(body)
-                    console.log(user.first_name)
+                    console.log(user)
                     sendWelcomeMessage(senderID, 'Hello! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
                 break
