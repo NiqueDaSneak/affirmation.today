@@ -113,7 +113,9 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     console.log('Upload successful!  Server responded with:', body)
-                    console.log(response.body.first_name)
+                    console.log(body.length)
+                    console.log(response.body.length)
+                    console.log(response.data)
                     sendWelcomeMessage(senderID, 'Hello! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
                 break
