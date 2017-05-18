@@ -113,8 +113,8 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     console.log('Upload successful!  Server responded with:', body);
+                    sendWelcomeMessage(senderID, 'Hello' + body.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
-                sendWelcomeMessage(senderID, 'Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 break
             case 'YES_SCHEDULE_MSG':
                 console.log(event)
