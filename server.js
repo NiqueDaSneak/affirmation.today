@@ -113,11 +113,8 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     console.log('Upload successful!  Server responded with:', body)
-                    var data = JSON.parse(body)
-                    console.log(data.length)
-                    console.log(data[0])
-                    console.log(data.first_name)
-                    sendWelcomeMessage(senderID, 'Hello! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+                    var user = JSON.parse(body)
+                    sendWelcomeMessage(senderID, 'Hello '+ user.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
                 break
             case 'YES_SCHEDULE_MSG':
