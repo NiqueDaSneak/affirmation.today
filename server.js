@@ -113,7 +113,7 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     console.log('Upload successful!  Server responded with:', body)
-                    var data = JSON.stringify(body)
+                    var data = JSON.parse(body)
                     console.log(data.length)
                     console.log(data[0])
                     console.log(data.first_name)
