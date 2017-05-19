@@ -119,7 +119,7 @@ function eventHandler(event) {
                 })
                 break
             case 'YES_SCHEDULE_MSG':
-                sendTextMessage(senderID, 'What time of day would you like us to send you an affirmation? Respond w/ Morning, Afternoon, or Evening')
+                sendTextMessage(senderID, "What time of day would you like us to send you an affirmation? Respond w/ 'Morning', 'Afternoon', or 'Evening'")
                 break
             case 'NO_SCHEDULE_MSG':
                 sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
