@@ -137,9 +137,11 @@ function eventHandler(event) {
 
 function returnAffirmation() {
   Affirmation.find((err, affirmation) => {
+      var aff
       if (err) return console.error(err)
-      return affirmation[Math.floor(Math.random() * affirmation.length)].text
-  )}
+      aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+      return aff
+  })
 }
 
 function sendGenericMessage(recipientId, messageText) {
