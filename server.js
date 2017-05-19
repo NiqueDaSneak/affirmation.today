@@ -136,7 +136,7 @@ function eventHandler(event) {
     }
 
     if (event.message) {
-      if (event.message.toString().toLowerCase() === 'Morning' || 'Afternoon' || 'Evening') {
+      if (event.message.toString().toLowerCase() === 'morning' || 'afternoon' || 'evening') {
         sendTextMessage(senderID, 'You chose ' + event.message.toString().toLowerCase())
       }
       else {
