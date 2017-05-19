@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'))
 var affirmationSchema = mongoose.Schema({text: String})
 var Affirmation = mongoose.model('Affirmation', affirmationSchema)
 
-var userSchema = mongoose.Schema({fullName: String, photo: String, timezone: Number})
+var userSchema = mongoose.Schema({id: Number, fullName: String, photo: String, subscription: {enrolled: Boolean, timezone: Number, timeOfDay: String}})
 userSchema.virtual('firstName').get(() => {
     return this.fullName.split(' ')[0]
 })
@@ -113,7 +113,12 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     console.log('Upload successful!  Server responded with:', body)
-                    var user = JSON.parse(body)
+                    var data = JSON.parse(body)
+                    var newUser = new User({id: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, subscription: {enrolled: false, timezone: data.timezone}})
+                    newUser.save((err, user) => {
+                      if (err) return console.error(err)
+                      console.log(user)
+                    })
                     sendWelcomeMessage(senderID, 'Hello '+ user.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
                 break
