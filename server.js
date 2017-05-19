@@ -139,6 +139,7 @@ function returnAffirmation() {
   Affirmation.find((err, affirmation) => {
       if (err) return console.error(err)
       return affirmation[Math.floor(Math.random() * affirmation.length)].text
+  }
 }
 
 function sendGenericMessage(recipientId, messageText) {
