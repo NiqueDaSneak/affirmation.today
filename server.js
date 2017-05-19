@@ -114,7 +114,6 @@ function eventHandler(event) {
                     var newUser = new User({id: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, subscription: {enrolled: false, timezone: data.timezone}})
                     newUser.save((err, user) => {
                       if (err) return console.error(err)
-                      console.log(user)
                     })
                     sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
@@ -125,7 +124,8 @@ function eventHandler(event) {
             case 'NO_SCHEDULE_MSG':
                 sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
                 var aff = returnAffirmation()
-                sendTextMessage(senderID, aff)
+                console.log(aff);
+                sendTextMessage(senderID, 'test')
                 break
             default:
                 console.log(postback)
