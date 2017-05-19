@@ -37,8 +37,7 @@ app.set('view engine', 'jade');
 app.get('/', function(req, res) {
     Affirmation.find((err, affirmation) => {
         var aff
-        if (err)
-            return console.error(err)
+        if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
         res.render('homepage', ({date: moment().format("ddd, MMM Do YY"), quote: aff}));
     })
@@ -121,10 +120,15 @@ function eventHandler(event) {
                 })
                 break
             case 'YES_SCHEDULE_MSG':
-                sendTimeOptions(senderID, 'What time of day would you like us to send you an affirmation?')
-                console.log(event)
+                sendTextMessage(senderID, 'What time of day would you like us to send you an affirmation? Respond w/ Morning, Afternoon, or Evening')
                 break
             case 'NO_SCHEDULE_MSG':
+                sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is todays affirmation!')
+                Affirmation.find((err, affirmation) => {
+                    var aff
+                    if (err) return console.error(err)
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                sendTextMessage(senderID, aff)
                 console.log(event)
                 break
             default:
@@ -158,39 +162,6 @@ function sendWelcomeMessage(recipientId, messageText) {
                         }, {
                             "type": "postback",
                             "title": "Not Interested",
-                            "payload": "NO_SCHEDULE_MSG"
-                        }
-                    ]
-                }
-            }
-        }
-    }
-    callSendAPI(messageData);
-}
-
-function sendTimeOptions(recipientId, messageText) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "button",
-                    "text": messageText,
-                    "buttons": [
-                        {
-                            "type": "postback",
-                            "title": "Morning",
-                            "payload": "YES_SCHEDULE_MSG"
-                        }, {
-                            "type": "postback",
-                            "title": "Afternoon",
-                            "payload": "NO_SCHEDULE_MSG"
-                        }, {
-                            "type": "postback",
-                            "title": "Evening",
                             "payload": "NO_SCHEDULE_MSG"
                         }
                     ]
