@@ -98,9 +98,9 @@ app.post('/webhook', function(req, res) {
 })
 
 function eventHandler(event) {
-  var postback = event.postback.payload
   var senderID = event.sender.id
     if (event.postback) {
+      var postback = event.postback.payload
         switch (postback) {
             case 'GET_STARTED_PAYLOAD':
                 request({
