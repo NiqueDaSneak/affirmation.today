@@ -127,7 +127,7 @@ function eventHandler(event) {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    setTimeout(sendTextMessage(senderID, aff), 1500)
+                    sendTextMessage(senderID, aff)
                 })
                 break
             default:
