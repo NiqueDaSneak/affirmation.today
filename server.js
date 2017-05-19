@@ -123,9 +123,9 @@ function eventHandler(event) {
                 sendTextMessage(senderID, 'What time of day would you like us to send you an affirmation? Respond w/ Morning, Afternoon, or Evening')
                 break
             case 'NO_SCHEDULE_MSG':
-                sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is todays affirmation!')
-                sendTextMessage(senderID, returnAffirmation())
-                console.log(event)
+                sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
+                var aff = returnAffirmation()
+                sendTextMessage(senderID, aff)
                 break
             default:
                 console.log(postback)
