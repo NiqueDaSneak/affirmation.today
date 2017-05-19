@@ -158,8 +158,7 @@ function sendWelcomeMessage(recipientId, messageText) {
                         }, {
                             "type": "postback",
                             "title": "Not Interested",
-                            "payload": "NO_SCHEDULE_MSG",
-                            "metadata": "THIS-A-TEST"
+                            "payload": "NO_SCHEDULE_MSG"
                         }
                     ]
                 }
