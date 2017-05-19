@@ -84,7 +84,6 @@ app.post('/webhook', function(req, res) {
             entry.messaging.forEach(function(event) {
                 if (event.message || event.postback) {
                     eventHandler(event)
-                    // receivedMessage(event)
                 } else {
                     console.log("Webhook received unknown event: ", event)
                 }
@@ -112,7 +111,6 @@ function eventHandler(event) {
                     if (error) {
                         return console.error('upload failed:', error);
                     }
-                    console.log('Upload successful!  Server responded with:', body)
                     var data = JSON.parse(body)
                     var newUser = new User({id: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, subscription: {enrolled: false, timezone: data.timezone}})
                     newUser.save((err, user) => {
@@ -123,6 +121,7 @@ function eventHandler(event) {
                 })
                 break
             case 'YES_SCHEDULE_MSG':
+                sendTimeOptions(senderID, 'What time of day would you like us to send you an affirmation?')
                 console.log(event)
                 break
             case 'NO_SCHEDULE_MSG':
@@ -134,36 +133,6 @@ function eventHandler(event) {
     }
 
     if (event.message) {}
-}
-
-function receivedMessage(event) {
-    var senderID = event.sender.id
-    var recipientID = event.recipient.id
-    var timeOfMessage = event.timestamp
-    var message = event.message
-
-    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
-    console.log(JSON.stringify(message));
-
-    var messageId = message.mid;
-
-    var messageText = message.text;
-    var messageAttachments = message.attachments;
-
-    if (messageText) {
-
-        // If we receive a text message, check to see if it matches a keyword
-        // and send back the example. Otherwise, just echo the text we received.
-        switch (messageText) {
-            case 'generic':
-                sendGenericMessage(senderID)
-                break
-            default:
-                sendTextMessage(senderID, messageText)
-        }
-    } else if (messageAttachments) {
-        sendTextMessage(senderID, "Message with attachment received");
-    }
 }
 
 function sendGenericMessage(recipientId, messageText) {
@@ -189,6 +158,40 @@ function sendWelcomeMessage(recipientId, messageText) {
                         }, {
                             "type": "postback",
                             "title": "Not Interested",
+                            "payload": "NO_SCHEDULE_MSG"
+                            "metadata": "THIS-A-TEST"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+    callSendAPI(messageData);
+}
+
+function sendTimeOptions(recipientId, messageText) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": messageText,
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "Morning",
+                            "payload": "YES_SCHEDULE_MSG"
+                        }, {
+                            "type": "postback",
+                            "title": "Afternoon",
+                            "payload": "NO_SCHEDULE_MSG"
+                        }, {
+                            "type": "postback",
+                            "title": "Evening",
                             "payload": "NO_SCHEDULE_MSG"
                         }
                     ]
