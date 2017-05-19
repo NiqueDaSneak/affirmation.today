@@ -135,7 +135,14 @@ function eventHandler(event) {
         }
     }
 
-    if (event.message) {}
+    if (event.message) {
+      if (event.message.toLowerCase() === 'Morning' || 'Afternoon' || 'Evening') {
+        sendTextMessage(senderID, 'You chose ' + event.message.toLowerCase())
+      }
+      else {
+        sendTextMessage(senderID, event.message)
+      }
+    }
 }
 
 function sendGenericMessage(recipientId, messageText) {
