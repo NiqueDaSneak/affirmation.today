@@ -136,14 +136,12 @@ function eventHandler(event) {
     }
 
     if (event.message) {
-      if (event.message.toString().toLowerCase() === 'morning' || 'afternoon' || 'evening') {
-        // sendTextMessage(senderID, 'You chose ' + event.message)
-        console.log(event.message)
-        console.log(event.message.toString().toLowerCase());
+      if (event.message.text.toLowerCase() === 'morning' || 'afternoon' || 'evening') {
+        sendTextMessage(senderID, 'You chose ' + event.message.text)
         console.log('they made the right choice');
       }
       else {
-        // sendTextMessage(senderID, event.message)
+        sendTextMessage(senderID, event.message.text)
         console.log('they made the wrong choice');
       }
     }
