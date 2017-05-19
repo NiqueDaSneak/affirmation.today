@@ -124,11 +124,7 @@ function eventHandler(event) {
                 break
             case 'NO_SCHEDULE_MSG':
                 sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is todays affirmation!')
-                Affirmation.find((err, affirmation) => {
-                    var aff
-                    if (err) return console.error(err)
-                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                sendTextMessage(senderID, aff)
+                sendTextMessage(senderID, returnAffirmation())
                 console.log(event)
                 break
             default:
@@ -137,6 +133,12 @@ function eventHandler(event) {
     }
 
     if (event.message) {}
+}
+
+function returnAffirmation() {
+  Affirmation.find((err, affirmation) => {
+      if (err) return console.error(err)
+      return affirmation[Math.floor(Math.random() * affirmation.length)].text
 }
 
 function sendGenericMessage(recipientId, messageText) {
