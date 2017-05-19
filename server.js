@@ -137,6 +137,7 @@ function eventHandler(event) {
 
     if (event.message) {
       if (event.message.text.toLowerCase() === 'morning' || 'afternoon' || 'evening') {
+        console.log(event.message.text.toLowerCase() === 'morning' || 'afternoon' || 'evening')
         sendTextMessage(senderID, `You chose ${event.message.text}`)
         console.log('they made the right choice');
       }
