@@ -119,7 +119,7 @@ function eventHandler(event) {
                       if (err) return console.error(err)
                       console.log(user)
                     })
-                    sendWelcomeMessage(senderID, 'Hello '+ user.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+                    sendWelcomeMessage(senderID, 'Hello '+ newUser.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                 })
                 break
             case 'YES_SCHEDULE_MSG':
