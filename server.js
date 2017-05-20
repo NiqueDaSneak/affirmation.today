@@ -136,17 +136,15 @@ function eventHandler(event) {
     }
 
     if (event.message) {
-      if (event.message.text.toLowerCase() === 'morning') {
-        sendTextMessage(senderID, `You chose ${event.message.text}`)
-        console.log('they made the right choice');
-      }
-      if (event.message.text.toLowerCase() === 'afternoon') {
-        sendTextMessage(senderID, `You chose ${event.message.text}`)
-        console.log('they made the right choice');
-      }
-      if (event.message.text.toLowerCase() === 'evening') {
-        sendTextMessage(senderID, `You chose ${event.message.text}`)
-        console.log('they made the right choice');
+      var times = ['morning','afternoon', 'evening']
+      for (var i = 0; i < times.length; i++) {
+        if (event.message.text === times[i]) {
+          // Users.update({id: senderID}, {subscription: {enrolled: true, timeOfDay: times[i]}}, (err, raw) => {
+          // if (err) return console.log
+          // console.log(raw)
+          // })
+          console.log('there was a match: ' + times[i])
+        }
       }
     }
 }
