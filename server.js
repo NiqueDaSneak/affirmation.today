@@ -99,7 +99,7 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 35 * * * *', function(){
+var job = scheduler.scheduleJob('4 51 * * * *', function(){
   User.find({ timeOfDay: 'morning' }, (err, users) => {
     if (err) return console.log(err)
       for (var i = 0; i < users.length; i++) {
@@ -108,12 +108,12 @@ var job = scheduler.scheduleJob('4 35 * * * *', function(){
         console.log('this is individual')
         console.log(users)[i]
         console.log(users)[i].fullName
-        Affirmation.find((err, affirmation) => {
-          var aff
-          if (err) return console.error(err)
-          aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-          sendTextMessage(users[i].id, aff)
-        })
+        // Affirmation.find((err, affirmation) => {
+        //   var aff
+        //   if (err) return console.error(err)
+        //   aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        //   sendTextMessage(users[i].id, aff)
+        // })
       }
   })
 })
