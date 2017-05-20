@@ -111,7 +111,7 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     var data = JSON.parse(body)
-                    var newUser = new User({id: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, subscription: {enrolled: false, timezone: data.timezone}})
+                    var newUser = new User({id: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
                     newUser.save((err, user) => {
                       if (err) return console.error(err)
                     })
