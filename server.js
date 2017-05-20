@@ -99,6 +99,9 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
+var job = schedule.scheduleJob('* 36 * * * *', function(){
+  console.log('The minute is 36 byotch');
+});
 
 
 // HELPER FUNCTIONS
