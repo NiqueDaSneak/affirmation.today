@@ -138,12 +138,11 @@ function eventHandler(event) {
     if (event.message) {
       var times = ['morning','afternoon', 'evening']
       for (var i = 0; i < times.length; i++) {
-        if (event.message.text === times[i]) {
-          // Users.update({id: senderID}, {subscription: {enrolled: true, timeOfDay: times[i]}}, (err, raw) => {
-          // if (err) return console.log
-          // console.log(raw)
-          // })
-          console.log('there was a match: ' + times[i])
+        if (event.message.text.toLowerCase() === times[i]) {
+          Users.update({id: senderID}, {subscription: {enrolled: true, timeOfDay: times[i]}}, (err, raw) => {
+            if (err) return console.log(err)
+            console.log(raw)
+          })
         }
       }
     }
