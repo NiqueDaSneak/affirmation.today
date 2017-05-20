@@ -97,6 +97,30 @@ app.post('/webhook', function(req, res) {
     }
 })
 
+// HELPER FUNCTIONS
+
+function findEightAM(){
+  var date = new Date()
+  var current_hour = date.getHours()
+  var current_timezone = -4
+  var timezone_diff
+  var morning_timezone
+  if (current_hour > 12) {
+    current_hour = current_hour - 12
+  }
+  if (current_hour === 8) {
+    morning_timezone = current_timezone
+  } else if (current_hour > 8) {
+    timezone_diff = current_hour - 8
+    morning_timezone = current_timezone + timezone_diff
+  } else {
+    // if current_hour < 8
+    timezone_diff = 8 - current_hour
+    morning_timezone = current_timezone - timezone_diff
+  }
+  return morning_timezone
+}
+
 function eventHandler(event) {
   var senderID = event.sender.id
     if (event.postback) {
@@ -141,7 +165,6 @@ function eventHandler(event) {
         if (event.message.text.toLowerCase() === times[i]) {
           User.update({id: senderID}, {enrolled: true, timeOfDay: times[i]}, (err, raw) => {
             if (err) return console.log(err)
-            console.log(raw)
           })
           sendTextMessage(senderID, "Great! We've got you locked in. Look for your affirmations to start tomorrow " + times[i] + "! In the mean time! Here is another for today!")
           Affirmation.find((err, affirmation) => {
@@ -153,10 +176,6 @@ function eventHandler(event) {
         }
       }
     }
-}
-
-function sendGenericMessage(recipientId, messageText) {
-    // To be expanded in later sections
 }
 
 function sendWelcomeMessage(recipientId, messageText) {
@@ -223,8 +242,6 @@ function callSendAPI(messageData) {
         }
     });
 }
-
-// HELPER FUNCTIONS
 
 // SERVER LISTENING
 var port = process.env.PORT || 3000;
