@@ -143,7 +143,7 @@ function eventHandler(event) {
             if (err) return console.log(err)
             console.log(raw)
           })
-          sendTextMessage(senderID, "Great! We've got you locked in. Look for your affirmations to start tomorrow! In the mean time! Here is another for today!")
+          sendTextMessage(senderID, "Great! We've got you locked in. Look for your affirmations to start tomorrow " + times[i] + "! In the mean time! Here is another for today!")
           Affirmation.find((err, affirmation) => {
               var aff
               if (err) return console.error(err)
