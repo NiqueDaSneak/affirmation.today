@@ -99,16 +99,18 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('44 27 * * * *', function(){
+var job = scheduler.scheduleJob('4 31 * * * *', function(){
   User.find({ timeOfDay: 'morning' }, (err, users) => {
     if (err) return console.log(err)
-    var matches = JSON.parse(users)
-      for (var i = 0; i < matches.length; i++) {
+    console.log(users)
+    console.log(users)[i]
+    console.log(users)[i].fullName
+      for (var i = 0; i < users.length; i++) {
         Affirmation.find((err, affirmation) => {
           var aff
           if (err) return console.error(err)
           aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-          sendTextMessage(matches[i].id, aff)
+          sendTextMessage(users[i].id, aff)
         })
       }
   })
