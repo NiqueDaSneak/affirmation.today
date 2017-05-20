@@ -110,6 +110,7 @@ var job = scheduler.scheduleJob('44 19 * * * *', function(){
           sendTextMessage(users[i].id, aff)
         })
       }
+  })
 })
 
 
