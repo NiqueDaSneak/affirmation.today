@@ -99,7 +99,7 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('44 21 * * * *', function(){
+var job = scheduler.scheduleJob('44 27 * * * *', function(){
   User.find({ timeOfDay: 'morning' }, (err, users) => {
     if (err) return console.log(err)
     var matches = JSON.parse(users)
