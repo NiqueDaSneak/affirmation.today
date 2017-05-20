@@ -99,9 +99,12 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('44 57 * * * *', function(){
-  console.log('The minute is 39 byotch');
-});
+var job = scheduler.scheduleJob('44 7 * * * *', function(){
+  User.find({ timeOfDay: 'morning' }, (err, users) => {
+    if (err) return console.log(err)
+    console.log(users);
+  })
+})
 
 
 // HELPER FUNCTIONS
