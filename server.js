@@ -97,6 +97,10 @@ app.post('/webhook', function(req, res) {
     }
 })
 
+// SCHEDULER
+var scheduler = require('node-schedule')
+
+
 // HELPER FUNCTIONS
 
 function findEightAM(){
