@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'))
 var affirmationSchema = mongoose.Schema({text: String})
 var Affirmation = mongoose.model('Affirmation', affirmationSchema)
 
-var userSchema = mongoose.Schema({id: Number, fullName: String, photo: String, subscription: {enrolled: Boolean, timezone: Number, timeOfDay: String}})
+var userSchema = mongoose.Schema({id: Number, fullName: String, photo: String, enrolled: Boolean, timezone: Number, timeOfDay: String})
 userSchema.virtual('firstName').get(() => {
     return this.fullName.split(' ')[0]
 })
@@ -139,7 +139,7 @@ function eventHandler(event) {
       var times = ['morning','afternoon', 'evening']
       for (var i = 0; i < times.length; i++) {
         if (event.message.text.toLowerCase() === times[i]) {
-          User.update({id: senderID}, {subscription: {enrolled: true, timeOfDay: times[i]}}, (err, raw) => {
+          User.update({id: senderID}, {enrolled: true, timeOfDay: times[i]}, (err, raw) => {
             if (err) return console.log(err)
             console.log(raw)
           })
