@@ -102,12 +102,13 @@ var scheduler = require('node-schedule')
 var job = scheduler.scheduleJob('44 21 * * * *', function(){
   User.find({ timeOfDay: 'morning' }, (err, users) => {
     if (err) return console.log(err)
-      for (var i = 0; i < users.length; i++) {
+    var matches = JSON.parse(users)
+      for (var i = 0; i < matches.length; i++) {
         Affirmation.find((err, affirmation) => {
           var aff
           if (err) return console.error(err)
           aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-          sendTextMessage(users[i].id, aff)
+          sendTextMessage(matches[i].id, aff)
         })
       }
   })
