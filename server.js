@@ -99,18 +99,19 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 29 * * * *', function(){
+var job = scheduler.scheduleJob('4 32 * * * *', function(){
   User.find({timeOfDay: 'morning'}).then((doc) => {
     console.log(doc)
     for (var i = 0; i < doc.length; i++) {
       console.log(doc[i].fullName)
       console.log(doc[i].fbID)
+      var userID = doc[i].fbID
       Affirmation.find((err, affirmation) => {
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
         console.log(aff);
-        sendTextMessage(doc[i].fbID, aff)
+        sendTextMessage(userID, aff)
       })
     }
   })
