@@ -103,7 +103,8 @@ var job = scheduler.scheduleJob('4 26 * * * *', function(){
   User.find({timeOfDay: 'morning'}).then((doc) => {
     console.log(doc)
     for (var i = 0; i < doc.length; i++) {
-      console.log(doc[i])
+      console.log(doc[i].fullName)
+      console.log(doc[i].fbID)
       Affirmation.find((err, affirmation) => {
         var aff
         if (err) return console.error(err)
