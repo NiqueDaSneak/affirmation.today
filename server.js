@@ -110,15 +110,15 @@ var job = scheduler.scheduleJob('4 49 * * * *', function(){
   //       console.log(users)
   //       console.log('this is individual')
   //       console.log(users)[i]
-        // console.log(users)[i].fullName
-        // Affirmation.find((err, affirmation) => {
-        //   var aff
-        //   if (err) return console.error(err)
-        //   aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        //   sendTextMessage(users[i].id, aff)
-        // })
-      }
-  })
+  //       console.log(users)[i].fullName
+  //       Affirmation.find((err, affirmation) => {
+  //         var aff
+  //         if (err) return console.error(err)
+  //         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+  //         sendTextMessage(users[i].id, aff)
+  //       })
+  //     }
+  // })
 })
 
 
