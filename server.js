@@ -99,37 +99,24 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 32 * * * *', function(){
-  User.find({timeOfDay: 'morning'}).then((doc) => {
-    console.log(doc)
-    for (var i = 0; i < doc.length; i++) {
-      console.log(doc[i].fullName)
-      console.log(doc[i].fbID)
-      var userID = doc[i].fbID
-      Affirmation.find((err, affirmation) => {
-        var aff
-        if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        console.log(aff);
-        sendTextMessage(userID, aff)
-      })
-    }
-  })
-  // User.find({ timeOfDay: 'morning' }, (err, users) => {
-  //   if (err) return console.log(err)
-  //     for (var i = 0; i <= users.length; i++) {
-  //       console.log('this is full array')
-  //       console.log(users)
-  //       console.log('this is individual')
-  //       console.log(users)[i]
-  //       console.log(users)[i].fullName
-  //     }
-  // })
-})
+// var job = scheduler.scheduleJob('4 44 * * * *', function(){
+//   User.find({timeOfDay: 'morning'}).then((doc) => {
+//     for (var i = 0; i < doc.length; i++) {
+//       var userID = doc[i].fbID          // switches for every iteration
+//       Affirmation.find((err, affirmation) => {
+//         var aff
+//         if (err) return console.error(err)
+//         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+//         console.log(aff)
+//         sendTextMessage(userID, aff)
+//       })
+//     }
+//   })
+// })
 
 
 // HELPER FUNCTIONS
-
+findEightAM()
 function findEightAM(){
   var date = new Date()
   var current_hour = date.getHours()
