@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'))
 var affirmationSchema = mongoose.Schema({text: String})
 var Affirmation = mongoose.model('Affirmation', affirmationSchema)
 
-var userSchema = mongoose.Schema({id: Number, fullName: String, photo: String, enrolled: Boolean, timezone: Number, timeOfDay: String})
+var userSchema = mongoose.Schema({fbID: Number, fullName: String, photo: String, enrolled: Boolean, timezone: Number, timeOfDay: String})
 userSchema.virtual('firstName').get(() => {
     return this.fullName.split(' ')[0]
 })
@@ -99,7 +99,7 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 59 * * * *', function(){
+var job = scheduler.scheduleJob('4 03 * * * *', function(){
   User.find({timeOfDay: 'morning'}).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
       Affirmation.find((err, affirmation) => {
@@ -107,7 +107,7 @@ var job = scheduler.scheduleJob('4 59 * * * *', function(){
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
         console.log(aff);
-        sendTextMessage(doc[i].id, aff)
+        sendTextMessage(doc[i].fbID, aff)
       })
     }
   })
@@ -162,7 +162,7 @@ function eventHandler(event) {
                         return console.error('upload failed:', error);
                     }
                     var data = JSON.parse(body)
-                    var newUser = new User({id: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
+                    var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
                     newUser.save((err, user) => {
                       if (err) return console.error(err)
                     })
