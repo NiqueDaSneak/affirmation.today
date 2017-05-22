@@ -99,7 +99,7 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 49 * * * *', function(){
+var job = scheduler.scheduleJob('4 52 * * * *', function(){
   User.find({timeOfDay: 'morning'}).then((doc) => {
     console.log(doc)
   })
