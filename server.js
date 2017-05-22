@@ -98,25 +98,28 @@ app.post('/webhook', function(req, res) {
 })
 
 // SCHEDULER
-// var scheduler = require('node-schedule')
-// var job = scheduler.scheduleJob('4 51 * * * *', function(){
-//   User.find({ timeOfDay: 'morning' }, (err, users) => {
-//     if (err) return console.log(err)
-//       for (var i = 0; i < users.length; i++) {
-//         console.log('this is full array')
-//         console.log(users)
-//         console.log('this is individual')
-//         console.log(users)[i]
-//         console.log(users)[i].fullName
-//         Affirmation.find((err, affirmation) => {
-//           var aff
-//           if (err) return console.error(err)
-//           aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-//           sendTextMessage(users[i].id, aff)
-//         })
-//       }
-//   })
-// })
+var scheduler = require('node-schedule')
+var job = scheduler.scheduleJob('4 49 * * * *', function(){
+  User.find({timeOfDay: 'morning'}).then((doc) => {
+    console.log(doc)
+  })
+  // User.find({ timeOfDay: 'morning' }, (err, users) => {
+  //   if (err) return console.log(err)
+  //     for (var i = 0; i <= users.length; i++) {
+  //       console.log('this is full array')
+  //       console.log(users)
+  //       console.log('this is individual')
+  //       console.log(users)[i]
+        // console.log(users)[i].fullName
+        // Affirmation.find((err, affirmation) => {
+        //   var aff
+        //   if (err) return console.error(err)
+        //   aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        //   sendTextMessage(users[i].id, aff)
+        // })
+      }
+  })
+})
 
 
 // HELPER FUNCTIONS
