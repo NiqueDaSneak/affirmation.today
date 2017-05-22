@@ -99,7 +99,7 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 03 * * * *', function(){
+var job = scheduler.scheduleJob('4 07 * * * *', function(){
   User.find({timeOfDay: 'morning'}).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
       Affirmation.find((err, affirmation) => {
@@ -190,7 +190,7 @@ function eventHandler(event) {
       var times = ['morning','afternoon', 'evening']
       for (var i = 0; i < times.length; i++) {
         if (event.message.text.toLowerCase() === times[i]) {
-          User.update({id: senderID}, {enrolled: true, timeOfDay: times[i]}, (err, raw) => {
+          User.update({fbID: senderID}, {enrolled: true, timeOfDay: times[i]}, (err, raw) => {
             if (err) return console.log(err)
           })
           sendTextMessage(senderID, "Great! We've got you locked in. Look for your affirmations to start tomorrow " + times[i] + "! In the mean time! Here is another for today!")
