@@ -116,7 +116,7 @@ var scheduler = require('node-schedule')
 
 
 // HELPER FUNCTIONS
-findEightAM()
+console.log(findEightAM())
 function findEightAM(){
   var date = new Date()
   var current_hour = date.getHours()
