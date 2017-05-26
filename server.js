@@ -99,45 +99,42 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-// var job = scheduler.scheduleJob('4 44 * * * *', function(){
-//   User.find({timeOfDay: 'morning'}).then((doc) => {
-//     for (var i = 0; i < doc.length; i++) {
-//       var userID = doc[i].fbID          // switches for every iteration
-//       Affirmation.find((err, affirmation) => {
-//         var aff
-//         if (err) return console.error(err)
-//         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-//         console.log(aff)
-//         sendTextMessage(userID, aff)
-//       })
-//     }
-//   })
-// })
-
+var job = scheduler.scheduleJob('4 44 * * * *', function(){
+  User.find({timeOfDay: 'morning'}).then((doc) => {
+    for (var i = 0; i < doc.length; i++) {
+      var userID = doc[i].fbID          // switches for every iteration
+      Affirmation.find((err, affirmation) => {
+        var aff
+        if (err) return console.error(err)
+        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        console.log(aff)
+        sendTextMessage(userID, aff)
+      })
+    }
+  })
+})
 
 // HELPER FUNCTIONS
-console.log(findEightAM())
-function findEightAM(){
-  var date = new Date()
-  var current_hour = date.getHours()
-  var current_timezone = -4
-  var timezone_diff
-  var morning_timezone
-  if (current_hour > 12) {
-    current_hour = current_hour - 12
-  }
-  if (current_hour === 8) {
-    morning_timezone = current_timezone
-  } else if (current_hour > 8) {
-    timezone_diff = current_hour - 8
-    morning_timezone = current_timezone + timezone_diff
-  } else {
-    // if current_hour < 8
-    timezone_diff = 8 - current_hour
-    morning_timezone = current_timezone - timezone_diff
-  }
-  return morning_timezone
-}
+// function findEightAM(){
+//   var date = new Date()
+//   var current_hour = date.getHours()
+//   if (current_hour > 8) {
+//     var distanceToMidnight = 24 - current_hour
+//     var totalHoursAway = distanceToMidnight + 8
+//     var UTC = -4 + totalHoursAway
+//     if (UTC > 14) {
+//       UTC = -(UTC-14)
+//     }
+//     console.log('UTC: ' + UTC)
+//   } else if (current_hour < 8) {
+//       var distanceToEightAM = 8 - current_hour
+//       var UTC = -4 - distanceToEightAM
+//     } else {
+//       var UTC = -4
+//     }
+//     return UTC
+//   }
+
 
 function eventHandler(event) {
   var senderID = event.sender.id
