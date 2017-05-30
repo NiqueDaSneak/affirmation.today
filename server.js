@@ -99,8 +99,8 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 44 * * * *', function(){
-  User.find({timeOfDay: 'morning'}).then((doc) => {
+var job = scheduler.scheduleJob('4 44 8 * * *', function(){
+  User.find({enrolled: 'true'}).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID          // switches for every iteration
       Affirmation.find((err, affirmation) => {
