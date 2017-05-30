@@ -99,7 +99,7 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var n_america_west_coast = scheduler.scheduleJob('4 0 4 * * *', function(){
+var n_america_west_coast = scheduler.scheduleJob('4 2 16 * * *', function(){
   User.find({
     $and: [
       {enrolled: 'true'},
