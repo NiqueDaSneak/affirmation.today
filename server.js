@@ -99,8 +99,13 @@ app.post('/webhook', function(req, res) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
-var job = scheduler.scheduleJob('4 44 8 * * *', function(){
-  User.find({enrolled: 'true'}).then((doc) => {
+var n_america_west_coast = scheduler.scheduleJob('4 0 4 * * *', function(){
+  User.find({
+    $and: [
+      {enrolled: 'true'},
+      { $or: [ {timezone: -4}, {timezone: -8}, {timezone: -9} ] }
+    ]
+  }).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID          // switches for every iteration
       Affirmation.find((err, affirmation) => {
@@ -113,6 +118,26 @@ var job = scheduler.scheduleJob('4 44 8 * * *', function(){
     }
   })
 })
+
+// var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
+//   User.find({
+//     $and: [
+//       {enrolled: 'true'},
+//       { $or: [ {timezone: -6}, {timezone: -5}, {timezone: -4}, {timezone: -3} ] }
+//     ]
+//   }).then((doc) => {
+//     for (var i = 0; i < doc.length; i++) {
+//       var userID = doc[i].fbID          // switches for every iteration
+//       Affirmation.find((err, affirmation) => {
+//         var aff
+//         if (err) return console.error(err)
+//         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+//         console.log(aff)
+//         sendTextMessage(userID, aff)
+//       })
+//     }
+//   })
+// })
 
 // HELPER FUNCTIONS
 
