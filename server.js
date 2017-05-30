@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'))
 var affirmationSchema = mongoose.Schema({text: String})
 var Affirmation = mongoose.model('Affirmation', affirmationSchema)
 
-var userSchema = mongoose.Schema({fbID: Number, fullName: String, photo: String, enrolled: Boolean, timezone: Number, timeOfDay: String})
+var userSchema = mongoose.Schema({fbID: Number, fullName: String, photo: String, enrolled: Boolean, timezone: Number})
 userSchema.virtual('firstName').get(() => {
     return this.fullName.split(' ')[0]
 })
@@ -115,26 +115,6 @@ var job = scheduler.scheduleJob('4 44 * * * *', function(){
 })
 
 // HELPER FUNCTIONS
-// function findEightAM(){
-//   var date = new Date()
-//   var current_hour = date.getHours()
-//   if (current_hour > 8) {
-//     var distanceToMidnight = 24 - current_hour
-//     var totalHoursAway = distanceToMidnight + 8
-//     var UTC = -4 + totalHoursAway
-//     if (UTC > 14) {
-//       UTC = -(UTC-14)
-//     }
-//     console.log('UTC: ' + UTC)
-//   } else if (current_hour < 8) {
-//       var distanceToEightAM = 8 - current_hour
-//       var UTC = -4 - distanceToEightAM
-//     } else {
-//       var UTC = -4
-//     }
-//     return UTC
-//   }
-
 
 function eventHandler(event) {
   var senderID = event.sender.id
@@ -158,7 +138,17 @@ function eventHandler(event) {
                 })
                 break
             case 'YES_SCHEDULE_MSG':
-                sendTextMessage(senderID, "What time of day would you like us to send you an affirmation? Respond w/ 'Morning', 'Afternoon', or 'Evening'")
+                sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
+                sendTextMessage(senderID, "In the mean time, here is another affirmation for today!")
+                Affirmation.find((err, affirmation) => {
+                    var aff
+                    if (err) return console.error(err)
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    sendTextMessage(senderID, aff)
+                })
+                User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
+                  if (err) return console.log(err)
+                })
                 break
             case 'NO_SCHEDULE_MSG':
                 sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
@@ -175,21 +165,6 @@ function eventHandler(event) {
     }
 
     if (event.message) {
-      var times = ['morning','afternoon', 'evening']
-      for (var i = 0; i < times.length; i++) {
-        if (event.message.text.toLowerCase() === times[i]) {
-          User.update({fbID: senderID}, {enrolled: true, timeOfDay: times[i]}, (err, raw) => {
-            if (err) return console.log(err)
-          })
-          sendTextMessage(senderID, "Great! We've got you locked in. Look for your affirmations to start tomorrow " + times[i] + "! In the mean time! Here is another for today!")
-          Affirmation.find((err, affirmation) => {
-              var aff
-              if (err) return console.error(err)
-              aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-              sendTextMessage(senderID, aff)
-          })
-        }
-      }
     }
 }
 
