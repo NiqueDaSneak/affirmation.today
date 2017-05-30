@@ -100,6 +100,7 @@ app.post('/webhook', function(req, res) {
 // SCHEDULER
 var scheduler = require('node-schedule')
 var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
+  console.log('Searching for users in North American West Coast')
   User.find({
     $and: [
       {enrolled: 'true'},
@@ -120,6 +121,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
 })
 
 var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
+  console.log('Searching for users in South America and North American East Coast')
   User.find({
     $and: [
       {enrolled: 'true'},
@@ -140,6 +142,7 @@ var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', f
 })
 
 var africa_and_w_europe = scheduler.scheduleJob('4 44 3 * * *', function(){
+  console.log('Searching for users in Africa and West Europe')
   User.find({
     $and: [
       {enrolled: 'true'},
@@ -160,6 +163,7 @@ var africa_and_w_europe = scheduler.scheduleJob('4 44 3 * * *', function(){
 })
 
 var middle_east_and_e_europe = scheduler.scheduleJob('4 44 1 * * *', function(){
+  console.log('Searching for users in Middle East & Eastern Europe')
   User.find({
     $and: [
       {enrolled: 'true'},
@@ -180,6 +184,7 @@ var middle_east_and_e_europe = scheduler.scheduleJob('4 44 1 * * *', function(){
 })
 
 var asia_and_oceania = scheduler.scheduleJob('4 44 18 * * *', function(){
+  console.log('Searching for users in Asia and Oceania')
   User.find({
     $and: [
       {enrolled: 'true'},
