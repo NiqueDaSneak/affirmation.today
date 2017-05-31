@@ -179,11 +179,15 @@ function eventHandler(event) {
     }
 
     if (event.message) {
-      console.log(sendingFeedback);
       if (sendingFeedback === true) {
-        console.log(event.message)
+        var newFeedback = new Feedback({text: event.message.text})
+        newFeedback.save((err, feedback) => {
+          if (err) return console.error(err)
+        })
+        sendTextMessage(senderID, 'Thanks for the feedback! We appreciate you taking the time!')
+        sendingFeedback = false
       } else {
-        console.log('Not saving this feedback')
+        sendTextMessage(senderID, 'Use the menu for actions you can take!')
       }
     }
 }
