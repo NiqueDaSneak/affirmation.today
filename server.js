@@ -152,7 +152,7 @@ function eventHandler(event) {
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
                     sendTextMessage(senderID, aff)
                   })
-                }, 1500)
+                }, 2000)
                 break
             case 'CANCEL_SUB':
                 break
