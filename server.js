@@ -21,6 +21,9 @@ userSchema.virtual('firstName').get(() => {
 })
 var User = mongoose.model('User', userSchema)
 
+var feedbackSchema = mongoose.Schema({text: String})
+var Feedback = mongoose.model('Feedback', feedbackSchema)
+
 // APP DEFINITIONS
 var app = express();
 
@@ -101,6 +104,7 @@ app.post('/webhook', function(req, res) {
 
 function eventHandler(event) {
   var senderID = event.sender.id
+  var sendingFeedback = false
     if (event.postback) {
       var postback = event.postback.payload
         switch (postback) {
@@ -165,6 +169,8 @@ function eventHandler(event) {
                 }, 2000)
                 break
             case 'FEEDBACK':
+                sendTextMessage(senderID, "Go ahead and tap 'Send a message' and speak your mind!")
+                sendingFeedback = true
                 break
             default:
                 console.log(postback)
@@ -172,7 +178,11 @@ function eventHandler(event) {
     }
 
     if (event.message) {
-      // send main menu: cancel enrollment, get a affirmation on demand, send feeback
+      if (sendingFeedback === true) {
+        console.log(event.message)
+      } else {
+        console.log('Not saving this feedback')
+      }
 
       send
     }
