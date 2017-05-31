@@ -159,8 +159,10 @@ function eventHandler(event) {
                   if (err) return console.log(err)
                 })
                 sendTextMessage(senderID, 'You have been unenrolled!')
-                sendTextMessage(senderID, 'Would you mind sending us a message with some feedback, we are curious why you wanted to stop!')
-                sendTextMessage(senderID, 'We appreciate your honesty!')
+                setTimeout(() => {
+                  sendTextMessage(senderID, 'Would you mind sending us a message with some feedback, we are curious why you wanted to stop!')
+                  sendTextMessage(senderID, 'We appreciate your honesty!')
+                }, 2000)
                 break
             case 'FEEDBACK':
                 break
