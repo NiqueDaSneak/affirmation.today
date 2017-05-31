@@ -155,6 +155,12 @@ function eventHandler(event) {
                 }, 2000)
                 break
             case 'CANCEL_SUB':
+                User.update({fbID: senderID}, {enrolled: false}, (err, raw) => {
+                  if (err) return console.log(err)
+                })
+                sendTextMessage(senderID, 'You have been unenrolled!')
+                sendTextMessage(senderID, 'Would you mind sending us a message with some feedback, we are curious why you wanted to stop!')
+                sendTextMessage(senderID, 'We appreciate your honesty!')
                 break
             case 'FEEDBACK':
                 break
