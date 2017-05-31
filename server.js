@@ -145,14 +145,14 @@ function eventHandler(event) {
             case 'SEND_AFF':
                 var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
                 sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
-                .then(() => {
+                setTimeout(() => {
                   Affirmation.find((err, affirmation) => {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
                     sendTextMessage(senderID, aff)
                   })
-                })
+                }, 1500)
                 break
             case 'CANCEL_SUB':
                 break
