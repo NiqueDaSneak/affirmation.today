@@ -97,6 +97,142 @@ app.post('/webhook', function(req, res) {
     }
 })
 
+// HELPER FUNCTIONS
+
+function eventHandler(event) {
+  var senderID = event.sender.id
+    if (event.postback) {
+      var postback = event.postback.payload
+        switch (postback) {
+            case 'GET_STARTED_PAYLOAD':
+                request({
+                    uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
+                    method: 'GET'
+                }, function(error, response, body) {
+                    if (error) {
+                        return console.error('upload failed:', error);
+                    }
+                    var data = JSON.parse(body)
+                    var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
+                    newUser.save((err, user) => {
+                      if (err) return console.error(err)
+                    })
+                    sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+                })
+                break
+            case 'YES_SCHEDULE_MSG':
+                sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
+                sendTextMessage(senderID, "In the mean time, here is another affirmation for today!")
+                Affirmation.find((err, affirmation) => {
+                    var aff
+                    if (err) return console.error(err)
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    sendTextMessage(senderID, aff)
+                })
+                User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
+                  if (err) return console.log(err)
+                })
+                break
+            case 'NO_SCHEDULE_MSG':
+                sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
+                Affirmation.find((err, affirmation) => {
+                    var aff
+                    if (err) return console.error(err)
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    sendTextMessage(senderID, aff)
+                })
+                break
+            case 'SEND_AFF':
+                var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
+                sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
+                Affirmation.find((err, affirmation) => {
+                    var aff
+                    if (err) return console.error(err)
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    sendTextMessage(senderID, aff)
+                })
+                break
+            case 'CANCEL_SUB':
+                break
+            case 'FEEDBACK':
+                break
+            default:
+                console.log(postback)
+        }
+    }
+
+    if (event.message) {
+      // send main menu: cancel enrollment, get a affirmation on demand, send feeback
+
+      send
+    }
+}
+
+function sendWelcomeMessage(recipientId, messageText) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": messageText,
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "Yes I would",
+                            "payload": "YES_SCHEDULE_MSG"
+                        }, {
+                            "type": "postback",
+                            "title": "Not Interested",
+                            "payload": "NO_SCHEDULE_MSG"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+    callSendAPI(messageData);
+}
+
+function sendTextMessage(recipientId, messageText) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText
+        }
+    };
+
+    callSendAPI(messageData);
+}
+
+function callSendAPI(messageData) {
+    request({
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {
+            access_token: PAGE_ACCESS_TOKEN
+        },
+        method: 'POST',
+        json: messageData
+
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
+
+            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
+        } else {
+            console.error("Unable to send message.");
+            console.error(response);
+            console.error(error);
+        }
+    });
+}
+
 // SCHEDULER
 var scheduler = require('node-schedule')
 var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
@@ -198,128 +334,6 @@ var asia_and_oceania = scheduler.scheduleJob('4 44 18 * * *', function(){
     }
   })
 })
-
-// HELPER FUNCTIONS
-
-function eventHandler(event) {
-  var senderID = event.sender.id
-    if (event.postback) {
-      var postback = event.postback.payload
-        switch (postback) {
-            case 'GET_STARTED_PAYLOAD':
-                request({
-                    uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
-                    method: 'GET'
-                }, function(error, response, body) {
-                    if (error) {
-                        return console.error('upload failed:', error);
-                    }
-                    var data = JSON.parse(body)
-                    var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
-                    newUser.save((err, user) => {
-                      if (err) return console.error(err)
-                    })
-                    sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
-                })
-                break
-            case 'YES_SCHEDULE_MSG':
-                sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
-                sendTextMessage(senderID, "In the mean time, here is another affirmation for today!")
-                Affirmation.find((err, affirmation) => {
-                    var aff
-                    if (err) return console.error(err)
-                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    sendTextMessage(senderID, aff)
-                })
-                User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
-                  if (err) return console.log(err)
-                })
-                break
-            case 'NO_SCHEDULE_MSG':
-                sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
-                Affirmation.find((err, affirmation) => {
-                    var aff
-                    if (err) return console.error(err)
-                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    sendTextMessage(senderID, aff)
-                })
-                break
-            default:
-                console.log(postback)
-        }
-    }
-
-    if (event.message) {
-      // send main menu: cancel enrollment, get a affirmation on demand, send feeback
-
-      send
-    }
-}
-
-function sendWelcomeMessage(recipientId, messageText) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "button",
-                    "text": messageText,
-                    "buttons": [
-                        {
-                            "type": "postback",
-                            "title": "Yes I would",
-                            "payload": "YES_SCHEDULE_MSG"
-                        }, {
-                            "type": "postback",
-                            "title": "Not Interested",
-                            "payload": "NO_SCHEDULE_MSG"
-                        }
-                    ]
-                }
-            }
-        }
-    }
-    callSendAPI(messageData);
-}
-
-function sendTextMessage(recipientId, messageText) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            text: messageText
-        }
-    };
-
-    callSendAPI(messageData);
-}
-
-function callSendAPI(messageData) {
-    request({
-        uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {
-            access_token: PAGE_ACCESS_TOKEN
-        },
-        method: 'POST',
-        json: messageData
-
-    }, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var recipientId = body.recipient_id;
-            var messageId = body.message_id;
-
-            console.log("Successfully sent generic message with id %s to recipient %s", messageId, recipientId);
-        } else {
-            console.error("Unable to send message.");
-            console.error(response);
-            console.error(error);
-        }
-    });
-}
 
 // SERVER LISTENING
 var port = process.env.PORT || 3000;
