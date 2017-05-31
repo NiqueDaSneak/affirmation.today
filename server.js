@@ -101,10 +101,9 @@ app.post('/webhook', function(req, res) {
 })
 
 // HELPER FUNCTIONS
-
+var sendingFeedback = false
 function eventHandler(event) {
   var senderID = event.sender.id
-  var sendingFeedback = false
     if (event.postback) {
       var postback = event.postback.payload
         switch (postback) {
