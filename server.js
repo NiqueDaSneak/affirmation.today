@@ -183,8 +183,6 @@ function eventHandler(event) {
       } else {
         console.log('Not saving this feedback')
       }
-
-      send
     }
 }
 
