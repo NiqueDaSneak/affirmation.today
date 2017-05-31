@@ -169,8 +169,10 @@ function eventHandler(event) {
                 }, 2000)
                 break
             case 'FEEDBACK':
+                console.log('Feedback var before: ' + sendingFeedback)
                 sendTextMessage(senderID, "Go ahead and tap 'Send a message' and speak your mind!")
                 sendingFeedback = true
+                console.log('Feedback var after: ' + sendingFeedback)
                 break
             default:
                 console.log(postback)
@@ -178,6 +180,7 @@ function eventHandler(event) {
     }
 
     if (event.message) {
+      console.log(sendingFeedback);
       if (sendingFeedback === true) {
         console.log(event.message)
       } else {
