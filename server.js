@@ -234,6 +234,8 @@ function sendTextMessage(recipientId, messageText) {
 }
 
 function sendAffirmation(recipientId, messageText) {
+  var rand = Math.floor((Math.random() * 9) + 1);
+  var image = "www.affirmation.today/img/affirmations/image" + rand + ".jpg"
     var messageData = {
         recipient: {
             "id": recipientId
@@ -242,7 +244,7 @@ function sendAffirmation(recipientId, messageText) {
             "attachment": {
               "type": "image",
               "payload": {
-                "url": "/public/img/affirmations/image1.jpg"
+                "url": image
               }
             }
         }
