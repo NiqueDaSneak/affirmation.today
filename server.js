@@ -130,6 +130,7 @@ function eventHandler(event) {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length) + 1].text
+                    sendImage(senderID)
                     sendTextMessage(senderID, aff)
                 })
                 User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
@@ -142,18 +143,19 @@ function eventHandler(event) {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    sendImage(senderID)
                     sendTextMessage(senderID, aff)
                 })
                 break
             case 'SEND_AFF':
                 var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
                 sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
-                sendImage(senderID)
                 setTimeout(() => {
                   Affirmation.find((err, affirmation) => {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    sendImage(senderID)
                     sendTextMessage(senderID, aff)
                   })
                 }, 2000)
@@ -292,6 +294,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        sendImage(senderID)
         sendTextMessage(userID, aff)
       })
     }
@@ -312,6 +315,7 @@ var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', f
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        sendImage(senderID)
         sendTextMessage(userID, aff)
       })
     }
@@ -332,6 +336,7 @@ var africa_and_w_europe = scheduler.scheduleJob('4 44 3 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        sendImage(senderID)
         sendTextMessage(userID, aff)
       })
     }
@@ -352,6 +357,7 @@ var middle_east_and_e_europe = scheduler.scheduleJob('4 44 1 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        sendImage(senderID)
         sendTextMessage(userID, aff)
       })
     }
@@ -372,6 +378,7 @@ var asia_and_oceania = scheduler.scheduleJob('4 44 18 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+        sendImage(senderID)
         sendTextMessage(userID, aff)
       })
     }
