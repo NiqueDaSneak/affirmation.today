@@ -148,13 +148,13 @@ function eventHandler(event) {
             case 'SEND_AFF':
                 var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
                 sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
+                sendImage(senderID)
                 setTimeout(() => {
                   Affirmation.find((err, affirmation) => {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
                     sendTextMessage(senderID, aff)
-                    sendAffirmation(senderID, aff)
                   })
                 }, 2000)
                 break
@@ -233,9 +233,10 @@ function sendTextMessage(recipientId, messageText) {
     callSendAPI(messageData);
 }
 
-function sendAffirmation(recipientId, messageText) {
+function sendImage(recipientId) {
   var rand = Math.floor((Math.random() * 9) + 1);
   var image = "www.affirmation.today/img/affirmations/image" + rand + ".jpg"
+
     var messageData = {
         recipient: {
             "id": recipientId
@@ -249,7 +250,6 @@ function sendAffirmation(recipientId, messageText) {
             }
         }
     }
-
     callSendAPI(messageData)
 }
 
