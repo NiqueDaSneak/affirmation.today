@@ -108,6 +108,11 @@ function eventHandler(event) {
       var postback = event.postback.payload
         switch (postback) {
             case 'GET_STARTED_PAYLOAD':
+                if (User.find({fbID: senderID})) {
+                  console.log('This user exists')
+                } else {
+                  console.log('this user does not exist')
+                }
                 request({
                     uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
                     method: 'GET'
