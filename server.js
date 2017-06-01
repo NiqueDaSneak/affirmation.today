@@ -154,6 +154,7 @@ function eventHandler(event) {
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
                     sendTextMessage(senderID, aff)
+                    sendAffirmation(senderID, aff)
                   })
                 }, 2000)
                 break
@@ -232,17 +233,17 @@ function sendTextMessage(recipientId, messageText) {
     callSendAPI(messageData);
 }
 
-function sendAffirmation(recipientId, messageText, imageURL) {
+function sendAffirmation(recipientId, messageText) {
     var messageData = {
         recipient: {
-            id: recipientId
+            "id": recipientId
         },
         message: {
-            text: messageText,
-            attachment: {
-              type: "image",
-              payload: {
-                url: imageURL
+            "text": messageText,
+            "attachment": {
+              "type": "image",
+              "payload": {
+                "url": "/public/img/affirmations/image1.jpg"
               }
             }
         }
