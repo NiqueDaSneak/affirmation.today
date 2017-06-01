@@ -238,7 +238,7 @@ function sendAffirmation(recipientId, messageText, imageURL) {
             id: recipientId
         },
         message: {
-            text: messageText
+            text: messageText,
             attachment: {
               type: "image",
               payload: {
