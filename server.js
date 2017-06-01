@@ -129,7 +129,7 @@ function eventHandler(event) {
                 Affirmation.find((err, affirmation) => {
                     var aff
                     if (err) return console.error(err)
-                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length) + 1].text
                     sendTextMessage(senderID, aff)
                 })
                 User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
@@ -168,10 +168,8 @@ function eventHandler(event) {
                 }, 2000)
                 break
             case 'FEEDBACK':
-                console.log('Feedback var before: ' + sendingFeedback)
                 sendTextMessage(senderID, "Go ahead and tap 'Send a message' and speak your mind!")
                 sendingFeedback = true
-                console.log('Feedback var after: ' + sendingFeedback)
                 break
             default:
                 console.log(postback)
@@ -232,6 +230,25 @@ function sendTextMessage(recipientId, messageText) {
     };
 
     callSendAPI(messageData);
+}
+
+function sendAffirmation(recipientId, messageText, imageURL) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText
+            attachment: {
+              type: "image",
+              payload: {
+                url: imageURL
+              }
+            }
+        }
+    }
+
+    callSendAPI(messageData)
 }
 
 function callSendAPI(messageData) {
