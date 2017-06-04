@@ -108,25 +108,26 @@ function eventHandler(event) {
       var postback = event.postback.payload
         switch (postback) {
             case 'GET_STARTED_PAYLOAD':
+                console.log('Sender ID: ' + senderID)
                 if (User.find({fbID: senderID})) {
                   console.log('This user exists')
                 } else {
                   console.log('this user does not exist')
                 }
-                request({
-                    uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
-                    method: 'GET'
-                }, function(error, response, body) {
-                    if (error) {
-                        return console.error('upload failed:', error);
-                    }
-                    var data = JSON.parse(body)
-                    var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
-                    newUser.save((err, user) => {
-                      if (err) return console.error(err)
-                    })
-                    sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
-                })
+                // request({
+                //     uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
+                //     method: 'GET'
+                // }, function(error, response, body) {
+                //     if (error) {
+                //         return console.error('upload failed:', error);
+                //     }
+                //     var data = JSON.parse(body)
+                //     var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
+                //     newUser.save((err, user) => {
+                //       if (err) return console.error(err)
+                //     })
+                //     sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+                // })
                 break
             case 'YES_SCHEDULE_MSG':
                 sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
