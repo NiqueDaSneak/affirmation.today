@@ -136,17 +136,36 @@ function eventHandler(event) {
                 })
                 break
             case 'YES_SCHEDULE_MSG':
-                sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
-                setTimeout(() => {
-                  sendTextMessage(senderID, "In the mean time, here is another affirmation for today!")
-                }, 2000)
-                Affirmation.find((err, affirmation) => {
-                    var aff
-                    if (err) return console.error(err)
-                    aff = affirmation[Math.floor(Math.random() * affirmation.length) + 1].text
-                    sendImage(senderID)
-                    sendTextMessage(senderID, aff)
+                var msg1 = new Promise(function(resolve, reject) {
+                  resolve(sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!"))
                 })
+                var msg2 = new Promise(function(resolve, reject) {
+                  resolve(sendTextMessage(senderID, "In the mean time, here is another affirmation for today!"))
+                });
+                var msg3 = new Promise(function(resolve, reject) {
+                  resolve(
+                    sendImage(senderID)
+                  )
+                })
+                var msg4 = new Promise(function(resolve, reject) {
+                  resolve(
+                    Affirmation.find((err, affirmation) => {
+                      var aff
+                      if (err) return console.error(err)
+                      aff = affirmation[Math.floor(Math.random() * affirmation.length) + 1].text
+                      sendTextMessage(senderID, aff)
+                    })
+                  )
+                })
+
+                msg1.then(() => {
+                  msg2.then(() => {
+                    msg3.then(() => {
+                      msg4
+                    })
+                  })
+                })
+
                 User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
                   if (err) return console.log(err)
                 })
