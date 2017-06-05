@@ -103,6 +103,7 @@ app.post('/webhook', function(req, res) {
 // HELPER FUNCTIONS
 var sendingFeedback = false
 function eventHandler(event) {
+  var existingUser
   var senderID = event.sender.id
     if (event.postback) {
       var postback = event.postback.payload
@@ -112,8 +113,9 @@ function eventHandler(event) {
                 User.find({fbID: senderID}, (err, user) => {
                    if (err) return console.log(err)
                    console.log(user)
-                   var existingUser = user
+                   existingUser = user
                 })
+                console.log('existingUser: ' + existingUser)
                 if (existingUser) {
                   console.log('This user exists')
                 } else {
