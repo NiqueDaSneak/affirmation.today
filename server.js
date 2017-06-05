@@ -137,20 +137,22 @@ function eventHandler(event) {
                 break
             case 'YES_SCHEDULE_MSG':
                 var msg1 = new Promise(function(resolve, reject) {
-                  resolve(sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!"))
+                  resolve(
+                    sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
+                  )
                 })
                 var msg2 = new Promise(function(resolve, reject) {
-                  resolve(sendTextMessage(senderID, "In the mean time, here is another affirmation for today!"))
-                });
-                var msg3 = new Promise(function(resolve, reject) {
-                  resolve(sendImage(senderID))
+                  resolve(
+                    sendTextMessage(senderID, "In the mean time, here is another affirmation for today!")
+                  )
                 })
-                var msg4 = new Promise(function(resolve, reject) {
+                var msg3 = new Promise(function(resolve, reject) {
                   resolve(
                     Affirmation.find((err, affirmation) => {
                       var aff
                       if (err) return console.error(err)
                       aff = affirmation[Math.floor(Math.random() * affirmation.length) + 1].text
+                      sendImage(senderID)
                       sendTextMessage(senderID, aff)
                     })
                   )
@@ -160,10 +162,11 @@ function eventHandler(event) {
                   if (err) return console.log(err)
                 })
 
-                msg1.then(() => {
-                  msg2.then(() => {
-                    msg3.then(() => {
-                      msg4
+                msg1
+                .then(() => {
+                  msg2
+                  .then(() => {
+                    msg4
                     })
                   })
                 })
