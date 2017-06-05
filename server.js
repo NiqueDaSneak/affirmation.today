@@ -158,16 +158,16 @@ function eventHandler(event) {
                   )
                 })
 
-                msg1.then(() => {
-                  msg2.then(() => {
-                    msg3.then(() => {
-                      msg4
-                    })
-                  })
-                })
-
                 User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
                   if (err) return console.log(err)
+
+                  msg1.then(() => {
+                    msg2.then(() => {
+                      msg3.then(() => {
+                        msg4
+                      })
+                    })
+                  })
                 })
                 break
             case 'NO_SCHEDULE_MSG':
