@@ -123,6 +123,7 @@ function eventHandler(event) {
                 })
                 if (existingUser === true) {
                   sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
+                  console.log('THIS USER EXISTS')
                 }
                 if (existingUser === false) {
                   request({
