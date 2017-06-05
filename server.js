@@ -109,7 +109,12 @@ function eventHandler(event) {
         switch (postback) {
             case 'GET_STARTED_PAYLOAD':
                 console.log('Sender ID: ' + senderID)
-                if (User.find({fbID: senderID})) {
+                User.find({fbID: senderID}, (err, user) => {
+                   if (err) return console.log(err)
+                   console.log(user)
+                   var existingUser = user
+                })
+                if (existingUser) {
                   console.log('This user exists')
                 } else {
                   console.log('this user does not exist')
