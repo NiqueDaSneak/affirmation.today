@@ -113,7 +113,9 @@ function eventHandler(event) {
                 User.find({fbID: senderID}, (err, user) => {
                    if (err) return console.log(err)
                    console.log('returned from query: ' + user)
-                   if (user === undefined) {
+                   var proof = user
+                   console.log('proof: ' + proof)
+                   if (proof === undefined) {
                      existingUser = false
                      console.log('no user:' + user);
                    } else {
