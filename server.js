@@ -160,15 +160,16 @@ function eventHandler(event) {
 
                 User.update({fbID: senderID}, {enrolled: true}, (err, raw) => {
                   if (err) return console.log(err)
+                })
 
-                  msg1.then(() => {
-                    msg2.then(() => {
-                      msg3.then(() => {
-                        msg4
-                      })
+                msg1.then(() => {
+                  msg2.then(() => {
+                    msg3.then(() => {
+                      msg4
                     })
                   })
                 })
+
                 break
             case 'NO_SCHEDULE_MSG':
                 sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
