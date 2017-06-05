@@ -112,12 +112,15 @@ function eventHandler(event) {
                 User.findOne({fbID: senderID}, (err, user) => {
                    if (err) return console.log(err)
                    console.log('returned from query: ' + user)
-                  //  if (proof === undefined) {
-                  //    existingUser = false
-                  //    console.log('no user:' + user);
-                  //  } else {
-                  //    existingUser = true
-                  //  }
+                   if (user === null) {
+                     existingUser = false
+                     console.log('user is null')
+                     console.log(user === null)
+                     console.log('existingUser: ' + existingUser)
+                   } else {
+                     existingUser = true
+                     console.log('existingUser: ' + existingUser)
+                   }
                 })
                 // if (existingUser) {
                 //   sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
