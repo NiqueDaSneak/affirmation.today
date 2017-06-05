@@ -112,9 +112,9 @@ function eventHandler(event) {
                 console.log('Sender ID: ' + senderID)
                 User.find({fbID: senderID}, (err, user) => {
                    if (err) return console.log(err)
-                   console.log(user)
+                   console.log('returned from query: ' + user)
                    existingUser = user
-                   console.log(existingUser)
+                   console.log('existingUser: ' + existingUser)
                 })
                 if (existingUser === undefined) {
                   request({
