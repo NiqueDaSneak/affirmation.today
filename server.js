@@ -103,7 +103,7 @@ app.post('/webhook', function(req, res) {
 // HELPER FUNCTIONS
 var sendingFeedback = false
 function eventHandler(event) {
-  var existingUser
+  var existingUser = false
   var senderID = event.sender.id
     if (event.postback) {
       var postback = event.postback.payload
@@ -113,10 +113,17 @@ function eventHandler(event) {
                 User.find({fbID: senderID}, (err, user) => {
                    if (err) return console.log(err)
                    console.log('returned from query: ' + user)
-                   existingUser = user
+                   if (user === undefined) {
+                     existingUser = false
+                     console.log('no user:' + user);
+                   } else {
+                     existingUser = true
+                   }
                    console.log('existingUser: ' + existingUser)
                 })
-                if (existingUser === undefined) {
+                if (existingUser) {
+                  sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
+                } else {
                   request({
                     uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
                     method: 'GET'
@@ -131,8 +138,6 @@ function eventHandler(event) {
                     })
                     sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
                   })
-                } else {
-                  sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
                 }
                 break
             case 'YES_SCHEDULE_MSG':
