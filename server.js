@@ -115,13 +115,16 @@ function eventHandler(event) {
                    console.log('returned from query: ' + user)
                    if (user === null) {
                      existingUser = false
+                     console.log(existingUser)
                    } else {
                      existingUser = true
+                     console.log(existingUser)
                    }
                 })
                 if (existingUser === true) {
                   sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
-                } else {
+                }
+                if (existingUser === false) {
                   request({
                     uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
                     method: 'GET'
