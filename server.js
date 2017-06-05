@@ -115,32 +115,28 @@ function eventHandler(event) {
                    console.log('returned from query: ' + user)
                    if (user === null) {
                      existingUser = false
-                     console.log('user is null')
-                     console.log(user === null)
-                     console.log('existingUser: ' + existingUser)
                    } else {
                      existingUser = true
-                     console.log('existingUser: ' + existingUser)
                    }
                 })
-                // if (existingUser) {
-                //   sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
-                // } else {
-                //   request({
-                //     uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
-                //     method: 'GET'
-                //   }, function(error, response, body) {
-                //     if (error) {
-                //       return console.error('upload failed:', error);
-                //     }
-                //     var data = JSON.parse(body)
-                //     var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
-                //     newUser.save((err, user) => {
-                //       if (err) return console.error(err)
-                //     })
-                //     sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
-                //   })
-                // }
+                if (existingUser === true) {
+                  sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
+                } else {
+                  request({
+                    uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
+                    method: 'GET'
+                  }, function(error, response, body) {
+                    if (error) {
+                      return console.error('upload failed:', error);
+                    }
+                    var data = JSON.parse(body)
+                    var newUser = new User({fbID: senderID, fullName: data.first_name + ' ' + data.last_name, photo: data.profile_pic, enrolled: false, timezone: data.timezone})
+                    newUser.save((err, user) => {
+                      if (err) return console.error(err)
+                    })
+                    sendWelcomeMessage(senderID, 'Hello '+ data.first_name +'! Welcome to Affirmation.today! Would you like to sign up for reoccuring messages')
+                  })
+                }
                 break
             case 'YES_SCHEDULE_MSG':
                 sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
