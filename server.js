@@ -143,9 +143,7 @@ function eventHandler(event) {
                   resolve(sendTextMessage(senderID, "In the mean time, here is another affirmation for today!"))
                 });
                 var msg3 = new Promise(function(resolve, reject) {
-                  resolve(
-                    sendImage(senderID)
-                  )
+                  resolve(sendImage(senderID))
                 })
                 var msg4 = new Promise(function(resolve, reject) {
                   resolve(
