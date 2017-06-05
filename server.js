@@ -105,6 +105,7 @@ var sendingFeedback = false
 function eventHandler(event) {
   var senderID = event.sender.id
     if (event.postback) {
+      var existingUser
       var postback = event.postback.payload
         switch (postback) {
             case 'GET_STARTED_PAYLOAD':
