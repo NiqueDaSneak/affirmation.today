@@ -169,7 +169,6 @@ function eventHandler(event) {
                     msg4
                     })
                   })
-                })
 
                 break
             case 'NO_SCHEDULE_MSG':
