@@ -298,7 +298,7 @@ function sendTextMessage(recipientId, messageText) {
 }
 
 function sendImage(recipientId) {
-  var rand = Math.floor((Math.random() * 9) + 1);
+  var rand = Math.floor((Math.random() * 23) + 1);
   var image = "www.affirmation.today/img/affirmations/image" + rand + ".jpg"
 
     var messageData = {
