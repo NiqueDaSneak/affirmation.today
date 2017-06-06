@@ -193,7 +193,7 @@ function eventHandler(event) {
                 })
                 break
             case 'SEND_AFF':
-                var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
+                var variations = ['A great one!', 'Powerful stuff right here...', 'This one is gold...', 'Found a good one for you...', 'Love this one...']
                 var msg1 = new Promise(function(resolve, reject) {
                   resolve(
                     sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
