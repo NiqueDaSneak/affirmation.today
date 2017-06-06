@@ -162,14 +162,15 @@ function eventHandler(event) {
                   if (err) return console.log(err)
                 })
 
-                msg1
-                .then(() => {
-                  msg2
-                  .then(() => {
-                    msg4
+                msg1.then(() => {
+                  console.log('first promise fired')
+                  msg2.then(() => {
+                    console.log('second promise fired')
+                    msg3.then(() => {
+                      console.log('third promise fired')
                     })
                   })
-
+                })
                 break
             case 'NO_SCHEDULE_MSG':
                 sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
