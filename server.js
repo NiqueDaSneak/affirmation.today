@@ -165,27 +165,49 @@ function eventHandler(event) {
                 })
                 break
             case 'NO_SCHEDULE_MSG':
-                sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
-                Affirmation.find((err, affirmation) => {
-                    var aff
-                    if (err) return console.error(err)
-                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    sendImage(senderID)
-                    sendTextMessage(senderID, aff)
+                var msg1 = new Promise(function(resolve, reject) {
+                  resolve(
+                    sendTextMessage(senderID, 'That is fine! Let us know if you change your mind! In the mean time, here is the affirmation for today!')
+                  )
                 })
-                break
-            case 'SEND_AFF':
-                var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
-                sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
-                setTimeout(() => {
+                var msg2 = new Promise(function(resolve, reject) {
                   Affirmation.find((err, affirmation) => {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    sendImage(senderID)
-                    sendTextMessage(senderID, aff)
+                    resolve(
+                      sendImage(senderID)
+                      sendTextMessage(senderID, aff)
+                    )
                   })
-                }, 2000)
+                });
+
+                break
+            case 'SEND_AFF':
+                var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
+                var msg1 = new Promise(function(resolve, reject) {
+                  resolve(
+                    sendTextMessage(senderID, variations[Math.floor(Math.random() * variations.length)])
+                  )
+                })
+                var msg2 = new Promise(function(resolve, reject) {
+                  Affirmation.find((err, affirmation) => {
+                    var aff
+                    if (err) return console.error(err)
+                    aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+                    resolve(
+                      sendImage(senderID)
+                      sendTextMessage(senderID, aff)
+                    )
+                  })
+                })
+
+                msg1.then(() => {
+                  console.log('first promise done')
+                  msg2.then(() => {
+                    cosole.log('second promise done')
+                  })
+                })
                 break
             case 'CANCEL_SUB':
                 User.update({fbID: senderID}, {enrolled: false}, (err, raw) => {
