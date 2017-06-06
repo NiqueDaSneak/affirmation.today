@@ -347,7 +347,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   User.find({
     $and: [
       {enrolled: 'true'},
-      { $or: [ {timezone: -9}, {timezone: -8}, {timezone: -7} ] }
+      { $or: [ {timezone: -12},{timezone: -11},{timezone: -10},{timezone: -9}, {timezone: -8}, {timezone: -7} ] }
     ]
   }).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
