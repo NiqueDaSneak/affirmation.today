@@ -214,7 +214,7 @@ function eventHandler(event) {
                 msg1.then(() => {
                   console.log('first promise done')
                   msg2.then(() => {
-                    cosole.log('second promise done')
+                    console.log('second promise done')
                     msg3.then(() => {
                       console.log('third promise done')
                     })
