@@ -138,15 +138,10 @@ function eventHandler(event) {
             case 'YES_SCHEDULE_MSG':
                 var msg1 = new Promise(function(resolve, reject) {
                   resolve(
-                    sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow!")
+                    sendTextMessage(senderID, "You've been enrolled! Look for your affirmations to start coming tomorrow! In the mean time, here is another affirmation for today!")
                   )
                 })
                 var msg2 = new Promise(function(resolve, reject) {
-                  resolve(
-                    sendTextMessage(senderID, "In the mean time, here is another affirmation for today!")
-                  )
-                })
-                var msg3 = new Promise(function(resolve, reject) {
                   resolve(
                     Affirmation.find((err, affirmation) => {
                       var aff
@@ -166,9 +161,6 @@ function eventHandler(event) {
                   console.log('first promise fired')
                   msg2.then(() => {
                     console.log('second promise fired')
-                    msg3.then(() => {
-                      console.log('third promise fired')
-                    })
                   })
                 })
                 break
