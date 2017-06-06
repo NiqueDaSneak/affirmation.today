@@ -175,13 +175,22 @@ function eventHandler(event) {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    resolve(
-                      sendImage(senderID)
-                      sendTextMessage(senderID, aff)
-                    )
+                    resolve(sendTextMessage(senderID, aff))
                   })
+                })
+                var msg3 = new Promise(function(resolve, reject) {
+                  resolve(sendImage(senderID))
                 });
 
+                msg1.then(() => {
+                  console.log('first promise')
+                  msg2.then(() => {
+                    console.log('second promise')
+                    msg3.then(() => {
+                      console.log('third promise')
+                    })
+                  })
+                })
                 break
             case 'SEND_AFF':
                 var variations = ['This one is gold...', 'Found a good one for you...', 'Love this one...']
@@ -195,17 +204,20 @@ function eventHandler(event) {
                     var aff
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-                    resolve(
-                      sendImage(senderID)
-                      sendTextMessage(senderID, aff)
-                    )
+                    resolve(sendTextMessage(senderID, aff))
                   })
+                })
+                var msg3 = new Promise(function(resolve, reject) {
+                  resolve(sendImage(senderID))
                 })
 
                 msg1.then(() => {
                   console.log('first promise done')
                   msg2.then(() => {
                     cosole.log('second promise done')
+                    msg3.then(() => {
+                      console.log('third promise done')
+                    })
                   })
                 })
                 break
