@@ -230,6 +230,7 @@ function eventHandler(event) {
                   sendTextMessage(senderID, 'Would you mind sending us a message with some feedback, we are curious why you wanted to stop!')
                   sendTextMessage(senderID, 'We appreciate your honesty!')
                 }, 2000)
+                sendingFeedback = true
                 break
             case 'FEEDBACK':
                 sendTextMessage(senderID, "Go ahead and tap 'Send a message' and speak your mind!")
