@@ -12,18 +12,18 @@ body
   text-align: center
 
 .content
-  background-color: rgba(71, 71, 71,.8)
-  margin: auto
-  position: absolute
-  top: 0
+  background-color: rgba(201, 186, 73, .75)
+  position: fixed
+  top: 30vh
   left: 0
   bottom: 0
   right: 0
   height: 26vh
   color: white
-  box-shadow: inset 0px 0px 22px 0px rgba(0,0,0,0.75)
+  padding-left: 5vw
+  padding-right: 5vw
   @include tablet
-    height: 34vh
+    height: 25vh
   @include desktop
     height: 32vh
 
@@ -41,3 +41,46 @@ body
     font-size: 3vw
   @include tablet
     font-size: 5vw
+
+@keyframes rotate
+  0%
+    transform: scale(1,1)
+  50%
+    transform: scale(1.2,1.2)
+  100%
+    transform: scale(1,1)
+
+.subscription
+  span
+    position: fixed
+    bottom: -16vh
+    width: 90vw
+    left: 0vw
+    background-color: #0084FF
+    color: white
+    padding-top: 3vh
+    padding-bottom: 3vh
+    padding-left: 5vw
+    padding-right: 5vw
+    transition: bottom .6s
+    transition-delay: .6s
+    @include tablet
+      font-size: 2.8vw
+  a
+    img
+      width: 20vw
+      position: fixed
+      left: 40vw
+      bottom: -15vh
+      transition: bottom .6s
+      transition-timing-function: cubic-bezier(.17,.67,.59,1.25)
+      animation-name: rotate
+      animation-delay: 1s
+      animation-duration: 2s
+      animation-iteration-count: infinite
+      @include tablet
+        width: 16vw
+        left: 42vw
+      @include desktop
+        width: 6vw
+        left: 47vw
