@@ -176,7 +176,7 @@ function eventHandler(event) {
                     if (err) return console.error(err)
                     aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
                     resolve(sendTextMessage(senderID, aff))
-                  })
+                  }))
                 })
                 var msg3 = new Promise(function(resolve, reject) {
                   resolve(sendImage(senderID))
