@@ -112,10 +112,8 @@ function eventHandler(event) {
       var postback = event.postback.payload
         switch (postback) {
             case 'GET_STARTED_PAYLOAD':
-                console.log('Sender ID: ' + senderID)
                 User.findOne({fbID: senderID}, (err, user) => {
                    if (err) return console.log(err)
-                   console.log('returned from query: ' + user)
                    if (user === null) {
                      request({
                        uri: 'https://graph.facebook.com/v2.6/' + senderID + '?access_token=EAAFTJz88HJUBAJqx5WkPGiIi0jPRyBXmpuN56vZB0FowKCZCzej8zpM4hKTt2ZCXqDZASqL4GUC5ywuOjakob1icM4Sfa4L3xcpsTKsjHl0QHzPylbHjJakyq1hcPNA4i8wt7XjsGZBGoUNYP7Yx2hg8RYiG9xzUoo0dzuThqGwZDZD',
@@ -133,7 +131,6 @@ function eventHandler(event) {
                      })
                    } else {
                      existingUser = true
-                     console.log(existingUser)
                      sendTextMessage(senderID, 'Welcome back! Use the menu for your actions!')
                    }
                 })
@@ -161,9 +158,7 @@ function eventHandler(event) {
                 })
 
                 msg1.then(() => {
-                  console.log('first promise fired')
                   msg2.then(() => {
-                    console.log('second promise fired')
                   })
                 })
                 break
@@ -186,11 +181,8 @@ function eventHandler(event) {
                 });
 
                 msg1.then(() => {
-                  console.log('first promise')
                   msg2.then(() => {
-                    console.log('second promise')
                     msg3.then(() => {
-                      console.log('third promise')
                     })
                   })
                 })
@@ -215,11 +207,8 @@ function eventHandler(event) {
                 })
 
                 msg1.then(() => {
-                  console.log('first promise done')
                   msg2.then(() => {
-                    console.log('second promise done')
                     msg3.then(() => {
-                      console.log('third promise done')
                     })
                   })
                 })
