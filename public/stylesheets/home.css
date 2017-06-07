@@ -84,9 +84,9 @@ body {
       font-size: 1.4vw; } }
 
 .subscription a img {
-  width: 20vw;
+  width: 16vw;
   position: fixed;
-  left: 40vw;
+  left: 42vw;
   bottom: -15vh;
   -webkit-transition: bottom 1s;
   transition: bottom 1s;
