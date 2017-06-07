@@ -73,9 +73,7 @@ body {
   padding-left: 5vw;
   padding-right: 5vw;
   -webkit-transition: bottom .6s;
-  transition: bottom .6s;
-  -webkit-transition-delay: .6s;
-          transition-delay: .6s; }
+  transition: bottom .6s; }
   @media only screen and (max-width: 1024px) and (min-width: 415px) {
     .subscription span {
       font-size: 2.8vw; } }
@@ -85,10 +83,12 @@ body {
   position: fixed;
   left: 40vw;
   bottom: -15vh;
-  -webkit-transition: bottom .6s;
-  transition: bottom .6s;
-  -webkit-transition-timing-function: cubic-bezier(0.17, 0.67, 0.59, 1.25);
-          transition-timing-function: cubic-bezier(0.17, 0.67, 0.59, 1.25);
+  -webkit-transition: bottom 1s;
+  transition: bottom 1s;
+  -webkit-transition-delay: 2s;
+          transition-delay: 2s;
+  -webkit-transition-timing-function: ease-out;
+          transition-timing-function: ease-out;
   -webkit-animation-name: rotate;
           animation-name: rotate;
   -webkit-animation-delay: 1s;

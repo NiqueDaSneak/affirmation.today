@@ -63,7 +63,6 @@ body
     padding-left: 5vw
     padding-right: 5vw
     transition: bottom .6s
-    transition-delay: .6s
     @include tablet
       font-size: 2.8vw
   a
@@ -72,8 +71,9 @@ body
       position: fixed
       left: 40vw
       bottom: -15vh
-      transition: bottom .6s
-      transition-timing-function: cubic-bezier(.17,.67,.59,1.25)
+      transition: bottom 1s
+      transition-delay: 2s
+      transition-timing-function: ease-out
       animation-name: rotate
       animation-delay: 1s
       animation-duration: 2s
