@@ -120,8 +120,8 @@ body {
   .hide-orientation img {
     position: fixed;
     top: 17vh;
-    width: 60vw;
-    left: 20vw; }
+    width: 30vw;
+    left: 35vw; }
 
 .display-none {
   display: none; }
