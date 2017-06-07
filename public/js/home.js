@@ -7,7 +7,7 @@ $(document).ready(function() {
   if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     $('body').css('background-image', "url('/img/mobile/image" + rand + ".jpg')")
     $('.subscription span').css('bottom', '0vh')
-    $('.messenger').css('bottom', '20vh')
+    $('.messenger').css('bottom', '17vh')
     setTimeout(() => {
       $('.subscription span').css('bottom', '-16vh')
     }, 5000)
