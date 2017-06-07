@@ -49,6 +49,10 @@ app.get('/', function(req, res) {
     })
 })
 
+app.get('/privacy-policy', (req, res) => {
+  res.render('privacypolicy')
+})
+
 // ADMIN APP
 app.get('/admin', function(req, res) {
     Affirmation.find((err, affirmation) => {
