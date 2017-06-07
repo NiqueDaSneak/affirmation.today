@@ -13,7 +13,8 @@ body {
   height: 26vh;
   color: white;
   padding-left: 5vw;
-  padding-right: 5vw; }
+  padding-right: 5vw;
+  padding-bottom: 3vh; }
   @media only screen and (max-width: 1024px) and (min-width: 415px) {
     .content {
       height: 25vh; } }
@@ -73,7 +74,8 @@ body {
   padding-left: 5vw;
   padding-right: 5vw;
   -webkit-transition: bottom .6s;
-  transition: bottom .6s; }
+  transition: bottom .6s;
+  font-size: 4vw; }
   @media only screen and (max-width: 1024px) and (min-width: 415px) {
     .subscription span {
       font-size: 2.8vw; } }
