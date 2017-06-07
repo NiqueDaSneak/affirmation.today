@@ -110,3 +110,18 @@ body {
     .subscription a img {
       width: 6vw;
       left: 47vw; } }
+
+.hide-orientation {
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  position: absolute; }
+  .hide-orientation img {
+    position: fixed;
+    top: 17vh;
+    width: 60vw;
+    left: 20vw; }
+
+.display-none {
+  display: none; }

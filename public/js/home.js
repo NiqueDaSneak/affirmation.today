@@ -27,4 +27,19 @@ $(document).ready(function() {
     }, 5000)
   }
 
+  $(window).on("orientationchange", (event) => {
+    console.log('orientation change!!!')
+  if (window.orientation === 90) {
+    $('.hide-orientation').fadeIn()
+  }
+
+  if (window.orientation === -90) {
+    $('.hide-orientation').fadeIn()
+  }
+
+  if (window.orientation === 0) {
+      $('.hide-orientation').fadeOut()
+  }
+})
+
 })
