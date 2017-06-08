@@ -352,7 +352,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(senderID)
+        sendImage(userID)
         sendTextMessage(userID, aff)
       })
     }
@@ -373,7 +373,7 @@ var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', f
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(senderID)
+        sendImage(userID)
         sendTextMessage(userID, aff)
       })
     }
@@ -394,7 +394,7 @@ var africa_and_w_europe = scheduler.scheduleJob('4 44 3 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(senderID)
+        sendImage(userID)
         sendTextMessage(userID, aff)
       })
     }
@@ -415,7 +415,7 @@ var middle_east_and_e_europe = scheduler.scheduleJob('4 44 1 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(senderID)
+        sendImage(userID)
         sendTextMessage(userID, aff)
       })
     }
@@ -436,7 +436,7 @@ var asia_and_oceania = scheduler.scheduleJob('4 44 18 * * *', function(){
         var aff
         if (err) return console.error(err)
         aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(senderID)
+        sendImage(userID)
         sendTextMessage(userID, aff)
       })
     }
