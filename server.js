@@ -211,10 +211,12 @@ function eventHandler(event) {
                 })
 
                 msg1.then(() => {
-                  msg2.then(() => {
-                    msg3.then(() => {
+                  setTimeout(() => {
+                    msg2.then(() => {
+                      msg3.then(() => {
+                      })
                     })
-                  })
+                  }, 2000)
                 })
                 break
             case 'CANCEL_SUB':
