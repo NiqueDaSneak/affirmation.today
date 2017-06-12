@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 56 9 * * *', function(){
+var test = scheduler.scheduleJob('4 58 9 * * *', function(){
   console.log('Searching for users in South America and North American East Coast')
   User.find({
     $and: [
