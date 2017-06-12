@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 20 11 * * *', function(){
+var test = scheduler.scheduleJob('4 27 11 * * *', function(){
   var findUser = new Promise(function(resolve, reject) {
     console.log('SCHEDULER TEST')
     resolve(
@@ -376,21 +376,20 @@ var test = scheduler.scheduleJob('4 20 11 * * *', function(){
   var affProm = new Promise(function(resolve, reject) {
     Affirmation.find((err, affirmation) => {
       if (err) return console.error(err)
-      resolve(affirmation)
+      resolve(affirmation[Math.floor(Math.random() * affirmation.length)].text)
      })
   })
 
   findUser.then((doc) => {
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID
-      var sendingAff
-      console.log('user ' + userID + ' gets this affirmation:')
+      console.log('userID outside aff promise: ' + userID)
       // sendImage(userID)
-      affProm.then(function(aff) {
-        sendingAff = aff[Math.floor(Math.random() * aff.length)].text
+      affProm.then((aff) => {
+        console.log('userID inside aff promise: ' + userID)
+        console.log('one affirmation: ' + aff)
       })
       // sendTextMessage(userID, sendingAff)
-      console.log(sendingAff)
     }
   })
 })
