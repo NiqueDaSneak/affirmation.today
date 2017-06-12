@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-// var test = scheduler.scheduleJob('4 58 9 * * *', function(){
+var test = scheduler.scheduleJob('4 15 10 * * *', function(){
   console.log('SCHEDULER TEST')
   User.find({
     $and: [
@@ -370,6 +370,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
     ]
   }).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
+      console.log('doc: ' + doc);
       var userID = doc[i].fbID
       var affs = Affirmation.find()
       console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
@@ -377,7 +378,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
       console.log('userID: ' + userID)
     }
   })
-// })
+})
 
 var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
   console.log('Searching for users in South America and North American East Coast')
