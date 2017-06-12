@@ -361,22 +361,30 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 15 10 * * *', function(){
-  console.log('SCHEDULER TEST')
-  User.find({
-    $and: [
-      {enrolled: 'true'},
-      { $or: [ {timezone: -6}, {timezone: -5}, {timezone: -4}, {timezone: -3} ] }
-    ]
-  }).then((doc) => {
+var test = scheduler.scheduleJob('4 23 10 * * *', function(){
+  var findUser = new Promise(function(resolve, reject) {
+    console.log('SCHEDULER TEST')
+    resolve(
+      User.find({
+        $and: [
+          {enrolled: 'true'},
+          { $or: [ {timezone: -6}, {timezone: -5}, {timezone: -4}, {timezone: -3} ] }
+        ]
+      })
+    )
+  })
+  findUser.then((doc) => {
+    console.log('whole doc: ' + doc)
     for (var i = 0; i < doc.length; i++) {
-      console.log('doc: ' + doc);
+      console.log('doc ' + i + ': ' + doc[i])
       var userID = doc[i].fbID
-      var affs = Affirmation.find()
-      console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
       console.log('from doc: ' + doc[i].fbID)
       console.log('userID: ' + userID)
     }
+    // for (var i = 0; i < doc.length; i++) {
+    // var affs = Affirmation.find()
+    //   console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
+    // }
   })
 })
 
