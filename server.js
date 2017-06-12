@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 06 12 * * *', function(){
+var test = scheduler.scheduleJob('4 10 12 * * *', function(){
   var findUser = new Promise(function(resolve, reject) {
     console.log('SCHEDULER TEST')
     resolve(
@@ -373,6 +373,7 @@ var test = scheduler.scheduleJob('4 06 12 * * *', function(){
       })
     )
   })
+
   var affProm = new Promise(function(resolve, reject) {
     Affirmation.find((err, affirmation) => {
       if (err) return console.error(err)
@@ -390,8 +391,9 @@ var test = scheduler.scheduleJob('4 06 12 * * *', function(){
         console.log('userID inside aff promise: ' + userID)
       })
     }
+    console.log('inside ' + users)
   })
-  console.log(users)
+  console.log('outside ' + users)
 })
 
 var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
