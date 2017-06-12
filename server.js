@@ -361,8 +361,8 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 58 9 * * *', function(){
-  console.log('Searching for users in South America and North American East Coast')
+// var test = scheduler.scheduleJob('4 58 9 * * *', function(){
+  console.log('SCHEDULER TEST')
   User.find({
     $and: [
       {enrolled: 'true'},
@@ -371,19 +371,19 @@ var test = scheduler.scheduleJob('4 58 9 * * *', function(){
   }).then((doc) => {
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID
-      var aff         // switches for every iteration
-      Affirmation.find((err, affirmation) => {
-        if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
+      var affs = Affirmation.find()
+      // (err, affirmation) => {
+      //   if (err) return console.error(err)
+        // aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
         // sendImage(userID)
         // sendTextMessage(userID, aff)
-      })
-      console.log(aff)
+      console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
       console.log('from doc: ' + doc[i].fbID)
       console.log('userID: ' + userID)
-    }
+    })
+  }
   })
-})
+// })
 
 var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
   console.log('Searching for users in South America and North American East Coast')
