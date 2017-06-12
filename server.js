@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 12 11 * * *', function(){
+var test = scheduler.scheduleJob('4 20 11 * * *', function(){
   var findUser = new Promise(function(resolve, reject) {
     console.log('SCHEDULER TEST')
     resolve(
@@ -386,7 +386,7 @@ var test = scheduler.scheduleJob('4 12 11 * * *', function(){
       var sendingAff
       console.log('user ' + userID + ' gets this affirmation:')
       // sendImage(userID)
-      affProm.then((aff) => {
+      affProm.then(function(aff) {
         sendingAff = aff[Math.floor(Math.random() * aff.length)].text
       })
       // sendTextMessage(userID, sendingAff)
