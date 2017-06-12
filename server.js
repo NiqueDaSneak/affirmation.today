@@ -340,144 +340,179 @@ function callSendAPI(messageData) {
 
 // SCHEDULER
 var scheduler = require('node-schedule')
+
 var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
-  console.log('Searching for users in North American West Coast')
-  User.find({
-    $and: [
-      {enrolled: 'true'},
-      { $or: [ {timezone: -12},{timezone: -11},{timezone: -10},{timezone: -9}, {timezone: -8}, {timezone: -7} ] }
-    ]
-  }).then((doc) => {
-    for (var i = 0; i < doc.length; i++) {
-      var userID = doc[i].fbID          // switches for every iteration
-      Affirmation.find((err, affirmation) => {
-        var aff
-        if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(userID)
-        sendTextMessage(userID, aff)
-      })
-    }
-  })
-})
-
-var test = scheduler.scheduleJob('4 16 12 * * *', function(){
-  var findUser = new Promise(function(resolve, reject) {
-    console.log('SCHEDULER TEST')
-    resolve(
-      User.find({
-        $and: [
-          {enrolled: 'true'},
-          { $or: [ {timezone: -6}, {timezone: -5}, {timezone: -4}, {timezone: -3} ] }
-        ]
-      })
-    )
-  })
-
+    var findUser = new Promise(function(resolve, reject) {
+      console.log('Searching for users in North American West Coast')
+      resolve(
+        User.find({
+          $and: [
+            {enrolled: 'true'},
+            { $or: [ {timezone: -12},{timezone: -11},{timezone: -10},{timezone: -9}, {timezone: -8}, {timezone: -7} ] }
+          ]
+        })
+      )
+    })
   var affProm = new Promise(function(resolve, reject) {
-    Affirmation.find((err, affirmation) => {
-      if (err) return console.error(err)
-      resolve(affirmation)
-     })
-  })
+      Affirmation.find((err, affirmation) => {
+        if (err) return console.error(err)
+        resolve(affirmation)
+       })
+    })
 
   findUser.then((doc) => {
-    var users = []
-    for (var i = 0; i < doc.length; i++) {
-      var userID = doc[i].fbID
-      users.push(userID)
-    }
-    affProm.then((aff) => {
-      for (var i = 0; i < users.length; i++) {
-        console.log('user' + i + ': ' + users[i])
-        console.log('affirmation:' + aff[Math.floor(Math.random() * aff.length)].text)
+      var users = []
+      for (var i = 0; i < doc.length; i++) {
+        var userID = doc[i].fbID
+        users.push(userID)
       }
+      affProm.then((aff) => {
+        for (var i = 0; i < users.length; i++) {
+          sendImage(users[i])
+          sendTextMessage(users[i], aff[Math.floor(Math.random() * aff.length)].text)
+        }
+      })
     })
-  })
 })
 
 var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
-  console.log('Searching for users in South America and North American East Coast')
-  User.find({
-    $and: [
-      {enrolled: 'true'},
-      { $or: [ {timezone: -6}, {timezone: -5}, {timezone: -4}, {timezone: -3} ] }
-    ]
-  }).then((doc) => {
-    for (var i = 0; i < doc.length; i++) {
-      var userID = doc[i].fbID          // switches for every iteration
+    var findUser = new Promise(function(resolve, reject) {
+      console.log('Searching for users in South America and North American East Coast')
+      resolve(
+        User.find({
+          $and: [
+            {enrolled: 'true'},
+            { $or: [ {timezone: -6}, {timezone: -5}, {timezone: -4}, {timezone: -3} ] }
+          ]
+        })
+      )
+    })
+
+    var affProm = new Promise(function(resolve, reject) {
       Affirmation.find((err, affirmation) => {
-        var aff
         if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(userID)
-        sendTextMessage(userID, aff)
+        resolve(affirmation)
+       })
+    })
+
+    findUser.then((doc) => {
+      var users = []
+      for (var i = 0; i < doc.length; i++) {
+        var userID = doc[i].fbID
+        users.push(userID)
+      }
+      affProm.then((aff) => {
+        for (var i = 0; i < users.length; i++) {
+          sendImage(users[i])
+          sendTextMessage(users[i], aff[Math.floor(Math.random() * aff.length)].text)
+        }
       })
-    }
-  })
+    })
 })
 
 var africa_and_w_europe = scheduler.scheduleJob('4 44 3 * * *', function(){
-  console.log('Searching for users in Africa and West Europe')
-  User.find({
-    $and: [
-      {enrolled: 'true'},
-      { $or: [ {timezone: 0}, {timezone: 1}, {timezone: 2}, {timezone: 3} ] }
-    ]
-  }).then((doc) => {
-    for (var i = 0; i < doc.length; i++) {
-      var userID = doc[i].fbID          // switches for every iteration
+  var findUser = new Promise(function(resolve, reject) {
+      console.log('Searching for users in Africa and West Europe')
+      resolve(
+        User.find({
+          $and: [
+            {enrolled: 'true'},
+            { $or: [ {timezone: 0}, {timezone: 1}, {timezone: 2}, {timezone: 3} ] }
+          ]
+        })
+      )
+    })
+
+    var affProm = new Promise(function(resolve, reject) {
       Affirmation.find((err, affirmation) => {
-        var aff
         if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(userID)
-        sendTextMessage(userID, aff)
+        resolve(affirmation)
+       })
+    })
+
+    findUser.then((doc) => {
+      var users = []
+      for (var i = 0; i < doc.length; i++) {
+        var userID = doc[i].fbID
+        users.push(userID)
+      }
+      affProm.then((aff) => {
+        for (var i = 0; i < users.length; i++) {
+          sendImage(users[i])
+          sendTextMessage(users[i], aff[Math.floor(Math.random() * aff.length)].text)
+        }
       })
-    }
-  })
+    })
 })
 
 var middle_east_and_e_europe = scheduler.scheduleJob('4 44 1 * * *', function(){
-  console.log('Searching for users in Middle East & Eastern Europe')
-  User.find({
-    $and: [
-      {enrolled: 'true'},
-      { $or: [ {timezone: 4}, {timezone: 5}, {timezone: 6}, {timezone: 7} ] }
-    ]
-  }).then((doc) => {
-    for (var i = 0; i < doc.length; i++) {
-      var userID = doc[i].fbID          // switches for every iteration
+  var findUser = new Promise(function(resolve, reject) {
+      console.log('Searching for users in Middle East & Eastern Europe')
+      resolve(
+        User.find({
+          $and: [
+            {enrolled: 'true'},
+            { $or: [ {timezone: 4}, {timezone: 5}, {timezone: 6}, {timezone: 7} ] }
+          ]
+        })
+      )
+    })
+
+    var affProm = new Promise(function(resolve, reject) {
       Affirmation.find((err, affirmation) => {
-        var aff
         if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(userID)
-        sendTextMessage(userID, aff)
+        resolve(affirmation)
+       })
+    })
+
+    findUser.then((doc) => {
+      var users = []
+      for (var i = 0; i < doc.length; i++) {
+        var userID = doc[i].fbID
+        users.push(userID)
+      }
+      affProm.then((aff) => {
+        for (var i = 0; i < users.length; i++) {
+          sendImage(users[i])
+          sendTextMessage(users[i], aff[Math.floor(Math.random() * aff.length)].text)
+        }
       })
-    }
-  })
+    })
 })
 
 var asia_and_oceania = scheduler.scheduleJob('4 44 18 * * *', function(){
-  console.log('Searching for users in Asia and Oceania')
-  User.find({
-    $and: [
-      {enrolled: 'true'},
-      { $or: [ {timezone: 8}, {timezone: 9}, {timezone: 10}, {timezone: 11}, {timezone: 12} ] }
-    ]
-  }).then((doc) => {
-    for (var i = 0; i < doc.length; i++) {
-      var userID = doc[i].fbID          // switches for every iteration
+  var findUser = new Promise(function(resolve, reject) {
+      console.log('Searching for users in Asia and Oceania')
+      resolve(
+        User.find({
+          $and: [
+            {enrolled: 'true'},
+            { $or: [ {timezone: 8}, {timezone: 9}, {timezone: 10}, {timezone: 11}, {timezone: 12} ] }
+          ]
+        })
+      )
+    })
+
+    var affProm = new Promise(function(resolve, reject) {
       Affirmation.find((err, affirmation) => {
-        var aff
         if (err) return console.error(err)
-        aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        sendImage(userID)
-        sendTextMessage(userID, aff)
+        resolve(affirmation)
+       })
+    })
+
+    findUser.then((doc) => {
+      var users = []
+      for (var i = 0; i < doc.length; i++) {
+        var userID = doc[i].fbID
+        users.push(userID)
+      }
+      affProm.then((aff) => {
+        for (var i = 0; i < users.length; i++) {
+          sendImage(users[i])
+          sendTextMessage(users[i], aff[Math.floor(Math.random() * aff.length)].text)
+        }
       })
-    }
-  })
+    })
 })
 
 
