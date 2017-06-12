@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 10 12 * * *', function(){
+var test = scheduler.scheduleJob('4 16 12 * * *', function(){
   var findUser = new Promise(function(resolve, reject) {
     console.log('SCHEDULER TEST')
     resolve(
@@ -377,23 +377,23 @@ var test = scheduler.scheduleJob('4 10 12 * * *', function(){
   var affProm = new Promise(function(resolve, reject) {
     Affirmation.find((err, affirmation) => {
       if (err) return console.error(err)
-      resolve(affirmation[Math.floor(Math.random() * affirmation.length)].text)
+      resolve(affirmation)
      })
   })
 
-  var users = []
   findUser.then((doc) => {
+    var users = []
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID
       users.push(userID)
-      console.log('userID outside aff promise: ' + userID)
-      affProm.then((aff) => {
-        console.log('userID inside aff promise: ' + userID)
-      })
     }
-    console.log('inside ' + users)
+    affProm.then((aff) => {
+      for (var i = 0; i < users.length; i++) {
+        console.log('user' + i + ': ' + users[i])
+        console.log('affirmation:' + aff[Math.floor(Math.random() * aff.length)].text)
+      }
+    })
   })
-  console.log('outside ' + users)
 })
 
 var s_america_and_n_america_east_coast = scheduler.scheduleJob('4 44 8 * * *', function(){
