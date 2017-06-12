@@ -372,16 +372,10 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID
       var affs = Affirmation.find()
-      // (err, affirmation) => {
-      //   if (err) return console.error(err)
-        // aff = affirmation[Math.floor(Math.random() * affirmation.length)].text
-        // sendImage(userID)
-        // sendTextMessage(userID, aff)
       console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
       console.log('from doc: ' + doc[i].fbID)
       console.log('userID: ' + userID)
-    })
-  }
+    }
   })
 // })
 
