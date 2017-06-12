@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 05 11 * * *', function(){
+var test = scheduler.scheduleJob('4 08 11 * * *', function(){
   var findUser = new Promise(function(resolve, reject) {
     console.log('SCHEDULER TEST')
     resolve(
@@ -384,8 +384,10 @@ var test = scheduler.scheduleJob('4 05 11 * * *', function(){
     for (var i = 0; i < doc.length; i++) {
       var userID = doc[i].fbID
       console.log('user ' + userID + ' gets this affirmation:')
+      // sendImage(userID)
       affProm.then((aff) => {
-        console.log(aff[Math.floor(Math.random() * aff.length)].text)
+        console.log(userID)
+        // sendTextMessage(userID, aff[Math.floor(Math.random() * aff.length)].text)
       })
     }
   })
