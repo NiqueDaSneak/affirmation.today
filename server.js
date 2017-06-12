@@ -361,7 +361,7 @@ var n_america_west_coast = scheduler.scheduleJob('4 44 13 * * *', function(){
   })
 })
 
-var test = scheduler.scheduleJob('4 23 10 * * *', function(){
+var test = scheduler.scheduleJob('4 28 10 * * *', function(){
   var findUser = new Promise(function(resolve, reject) {
     console.log('SCHEDULER TEST')
     resolve(
@@ -380,11 +380,9 @@ var test = scheduler.scheduleJob('4 23 10 * * *', function(){
       var userID = doc[i].fbID
       console.log('from doc: ' + doc[i].fbID)
       console.log('userID: ' + userID)
+      var affs = Affirmation.find()
+      console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
     }
-    // for (var i = 0; i < doc.length; i++) {
-    // var affs = Affirmation.find()
-    //   console.log('affirmation: ' + affs[Math.floor(Math.random() * affirmation.length)].text)
-    // }
   })
 })
 
